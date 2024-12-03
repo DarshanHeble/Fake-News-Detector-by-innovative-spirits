@@ -58,6 +58,6 @@
 
 2. **Start the development server:**
    ```bash
-   npm start
+   npm run dev
    ```
    This will start the development server and open your default browser.
