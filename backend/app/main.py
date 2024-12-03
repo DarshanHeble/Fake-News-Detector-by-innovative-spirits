@@ -7,11 +7,15 @@ app = FastAPI()
 # CORS configuration (update the allowed origins as needed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Frontend URL
+    allow_origins=["http://localhost:5137"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/connection-status")
+async def connection_status():
+    return {"status": "true"}
 
 @app.post("/")
 async def root():
