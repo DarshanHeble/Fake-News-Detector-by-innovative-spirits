@@ -12,6 +12,7 @@ function App() {
     console.log(status);
   });
 
+  // verify news(testing)
   verifyNews({ category: "text", content: "hello" }).then((response) => {
     console.log(response);
   });

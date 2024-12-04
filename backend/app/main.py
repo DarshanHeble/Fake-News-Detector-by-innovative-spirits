@@ -18,7 +18,9 @@ app.add_middleware(
 # verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
+    print(news)
     
+    # Fake output for testing
     return OutputNewsType(label="fake")
 
 # Checking connection status manually
