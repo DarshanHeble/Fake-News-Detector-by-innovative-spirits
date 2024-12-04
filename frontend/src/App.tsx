@@ -7,8 +7,10 @@ import getServerStatus from "@services/getServerStatus";
 
 function App() {
   const [count, setCount] = useState(0);
-
-  getServerStatus();
+  // get server status
+  getServerStatus().then((status) => {
+    console.log(status);
+  });
 
   return (
     <>

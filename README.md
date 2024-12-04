@@ -1,5 +1,18 @@
 # **Fake-News-Detection-testing**
 
+## **Workflow**
+
+1. **Data transfer from frontend to backend**
+
+   - When sending data to backend for verification of news data, a certain type of data need to be passed.
+
+     ```bash
+     type NewsDataType = {
+        newsType: "text" | "url";
+        data: string;
+        };
+     ```
+
 ## **Requirements**
 
 **To run this project, you'll need the following:**
