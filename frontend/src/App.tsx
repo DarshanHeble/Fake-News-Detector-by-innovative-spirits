@@ -3,7 +3,6 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import getServerStatus from "@services/getServerStatus";
-// import getServerStatus from "./services/getServerStatus";
 
 function App() {
   const [count, setCount] = useState(0);

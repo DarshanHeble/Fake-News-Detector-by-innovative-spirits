@@ -10,7 +10,7 @@ import api from "./api"; // import api instance from axios
 
 const getServerStatus = async (): Promise<boolean> => {
   try {
-    // send a GET request to the server
+    // Send a GET request to the server
     const response = await api.get("/connection-status");
 
     // Return true if the response status code is 200 (OK)
