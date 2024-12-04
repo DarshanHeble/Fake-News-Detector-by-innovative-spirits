@@ -1,8 +1,8 @@
 // define all custom types and interfaces here
 
 export type InputNewsType = {
-  type: "text" | "url";
-  data: string;
+  category: "text" | "url";
+  content: string;
 };
 
 export type OutputNewsType = {

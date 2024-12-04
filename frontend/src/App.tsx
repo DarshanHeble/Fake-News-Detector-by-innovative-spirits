@@ -3,12 +3,17 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import getServerStatus from "@services/getServerStatus";
+import verifyNews from "@services/verifyNews";
 
 function App() {
   const [count, setCount] = useState(0);
   // get server status
   getServerStatus().then((status) => {
     console.log(status);
+  });
+
+  verifyNews({ category: "text", content: "hello" }).then((response) => {
+    console.log(response);
   });
 
   return (
