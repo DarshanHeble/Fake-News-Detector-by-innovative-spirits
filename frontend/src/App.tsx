@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-// src/App.tsx
-import React from 'react';
-import FakeNewsChecker from './Components/FakeNewsChecker';
-
-const App: React.FC = () => {
-    return (
-        <div className="App">
-            <FakeNewsChecker />
-        </div>
-    );
-};
-
-export default App;
-=======
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
@@ -59,4 +44,3 @@ function App() {
 }
 
 export default App;
->>>>>>> aec352e9d2bfdba8c419e2adf81ac2f35a25bc31
