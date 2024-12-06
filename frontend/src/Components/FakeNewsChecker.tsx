@@ -1,6 +1,10 @@
 // src/FakeNewsChecker.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import bg from '/bg.jpg';
+// import '/bg.jpg';
+
+import "./FakeNewsChecker.css";
 
 const FakeNewsChecker: React.FC = () => {
     const [article, setArticle] = useState<string>('');
@@ -25,18 +29,20 @@ const FakeNewsChecker: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className='home' style={{backgroundSize: 'cover',backgroundRepeat: 'no-repeat'}}>
             <h1>Fake News Checker</h1>
             <form onSubmit={handleSubmit}>
-                <textarea
+                {/* <textarea
                     value={article}
                     onChange={(e) => setArticle(e.target.value)}
                     placeholder="Paste your article here"
                     rows={10}
                     cols={50}
                     required
-                />
-                <br />
+                /> */}
+                {/* INPUT ARTICLE */}
+                <input type="text"  placeholder="Paste your article here" onChange={(e) => setArticle(e.target.value)}></input>
+                &ensp;
                 <button type="submit" disabled={loading}>
                     {loading ? 'Checking...' : 'Check Article'}
                 </button>
