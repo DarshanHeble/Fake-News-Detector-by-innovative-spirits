@@ -23,7 +23,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@components/*": [
         "src/components/*"
@@ -36,10 +36,14 @@
       ],
       "@assets/*": [
         "src/assets/*"
-      ]
+      ],
+      "@Types/*": [
+        "src/Types/*"
+      ],
     }
   },
   "include": [
-    "src"
+    "src/**/*",
+    "src/Types/*"
   ]
 }

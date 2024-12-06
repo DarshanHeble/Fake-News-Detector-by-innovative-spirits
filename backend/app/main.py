@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from .Types.types import InputNewsType, OutputNewsType
+
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -13,6 +15,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# verify news end point starts here
+@app.post("/verify-news", response_model=OutputNewsType)
+async def verify_news(news: InputNewsType):
+    print(news)
+    
+    # Fake output for testing
+    return OutputNewsType(label="fake")
+
+# Checking connection status manually
 @app.get("/connection-status")
 async def connection_status():
     return {"status": "true"}
