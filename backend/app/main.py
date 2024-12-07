@@ -28,6 +28,6 @@ async def verify_news(news: InputNewsType):
 async def connection_status():
     return {"status": "true"}
 
-@app.post("/")
+@app.get("/")
 async def root():
     return {"message": "Fake New Detection Backend is running"}

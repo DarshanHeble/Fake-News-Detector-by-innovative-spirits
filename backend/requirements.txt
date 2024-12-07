@@ -2,3 +2,10 @@
 fastapi
 pydantic
 uvicorn
+
+# Model related libraries
+scikit-learn
+joblib
+nltk
+scipy
+numpy
