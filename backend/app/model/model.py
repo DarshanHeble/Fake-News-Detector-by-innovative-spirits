@@ -4,9 +4,9 @@ from scipy.sparse import hstack
 class ModelHandler():
     def __init__(self):
         # load the model
-        self.model = joblib.load("./joblib/logistic_regression_model.joblib")
-        self.headline_vectorizer = joblib.load("./joblib/headline_tfidf_vectorizer.joblib")
-        self.body_vectorizer = joblib.load("./joblib/body_tfidf_vectorizer.joblib")
+        self.model = joblib.load("./app/model/joblib/logistic_regression_model.joblib")
+        self.headline_vectorizer = joblib.load("./app/model/joblib/headline_tfidf_vectorizer.joblib")
+        self.body_vectorizer = joblib.load("./app/model/joblib/body_tfidf_vectorizer.joblib")
         print("All models and vectorizers loaded successfully")
         
     def predict_stance(self, headline: str, body: str) -> str:

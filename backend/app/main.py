@@ -15,7 +15,7 @@ def on_shutdown():
     print("Model Uninitialized")
 
 # Initialize FastAPI app
-app = FastAPI(on_startup=on_startup, on_shutdown=on_shutdown)
+app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
 
 # CORS configuration (update the allowed origins as needed)
 app.add_middleware(
@@ -29,9 +29,12 @@ app.add_middleware(
 # verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
-    print(news)
-    
-    # Fake output for testing
+    if (news.category == "url"):
+        print("url")
+    elif (news.category == "text"):
+        print("text")
+        
+        
     return OutputNewsType(label="fake")
 
 # Checking connection status manually
