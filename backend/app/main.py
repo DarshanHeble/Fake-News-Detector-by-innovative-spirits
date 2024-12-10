@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
+from .services.webScrap import extract_headline_from_meta
 
 # Define lifecycle event handlers
 def on_startup():
@@ -29,11 +30,19 @@ app.add_middleware(
 # verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
-    if (news.category == "url"):
+    category = news.category
+    content = news.content
+    
+    if (category == "url"):
         print("url")
-    elif (news.category == "text"):
+        fetchedNews = extract_headline_from_meta(content)
+        content = fetchedNews.description
+        
+    elif (category == "text"):
         print("text")
         
+    print(content)
+    
         
     return OutputNewsType(label="fake")
 
