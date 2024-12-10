@@ -2,11 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel,Field
 from typing import Literal,Optional
+from ..Types.types import FetchedNewsType
 
-class FetchedNewsType(BaseModel):
-    title: Optional[str] = Field(None, description="The headline or title of the news article.")
-    description: Optional[str] = Field(None, description="The description or summary of the news article.")
-    published_at: Optional[str] = Field(None, description="The published date and time of the news article.")
+# class FetchedNewsType(BaseModel):
+#     title: Optional[str] = Field(None, description="The headline or title of the news article.")
+#     description: Optional[str] = Field(None, description="The description or summary of the news article.")
+#     published_at: Optional[str] = Field(None, description="The published date and time of the news article.")
 
 
 def extract_headline_from_meta(url)-> FetchedNewsType:
