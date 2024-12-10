@@ -3,9 +3,10 @@ from typing import Literal,Optional
 
 # will update this class in future
 class InputNewsType(BaseModel):
-    category: Literal["text", "url"] # defines allowed values for category
+    category: Literal["text", "url"] = Field(..., description="The category which will be either 'text' or 'url'")
     content: str # content will be in string format(text or url)
-    
+
+# will update this class in future
 class OutputNewsType(BaseModel):
     label: Literal["real", "fake"] = Field(..., description="The classification label for the news article. 'real' indicates the article is truthful, while 'fake' indicates false information.")
 

@@ -34,12 +34,15 @@ async def verify_news(news: InputNewsType):
     category = news.category
     content = news.content
     
+    # ----------------------------------
     if (category == "url"):
         fetchedNews = extract_headline_from_meta(content)
         content = fetchedNews.description
-        
+    # ----------------------------------
+    
+    # This function must return news articles which should be type "FetchedNewsType"
     results = fetchNewsFromGoogle(content)
-        
+    
     return OutputNewsType(label="fake")
 
 # Checking connection status manually

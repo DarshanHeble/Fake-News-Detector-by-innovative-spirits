@@ -12,7 +12,7 @@ def fetchNewsFromGoogle(query)-> FetchedNewsType:
         "q": query,
         "cx": CSE_ID,
         "key": GOOGLE_API_KEY,
-        "num": 10 # maximum number of articles to to be fetched from Google
+        "num": 10                   # maximum number of articles to be fetched from Google
     }
     
     response = requests.get(BASE_SEARCH_URL, params=params)
