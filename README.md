@@ -6,12 +6,28 @@
 
    - When sending data to backend for verification of news data, a certain type of data need to be passed.
 
-     ```bash
-     type NewsDataType = {
-        newsType: "text" | "url";
-        data: string;
-        };
-     ```
+   ```ts
+   type InputNewsType = {
+     category: "text" | "url";
+     content: string;
+   };
+   ```
+
+2. **Model Input for prediction**
+
+   - The model takes a news claim inputted by the user(It should be headline) and a body of text(Typically the description of fetched news articles)
+
+   - This can be cannot be changed since the datasets is specifically used for that purpose.
+
+3. **Data transfer from backend to frontend**
+
+   - When sending data to backend for verification of news data, a certain type of data need to be passed.
+
+   ```ts
+   type OutputNewsType = {
+     label: "real" | "fake";
+   };
+   ```
 
 ## **Requirements**
 
@@ -23,9 +39,9 @@
    - **Verification:**
      Open your terminal or command prompt and type the following commands. The output should indicate the installed versions:
 
-     ```bash
-     node -v
-     npm -v
+     ```powershell
+      node -v
+      npm -v
      ```
 
 2. **Python and pip:**
@@ -49,12 +65,12 @@
 
 1. **Install dependencies:**
 
-   ```bash
+   ```powershell
    pip install -r requirements.txt
    ```
 
 2. **Start the FastAPI server:**
-   ```bash
+   ```powershell
    uvicorn app.main:app --reload
    ```
    This will start the server on `http://127.0.0.1:8000` by default.

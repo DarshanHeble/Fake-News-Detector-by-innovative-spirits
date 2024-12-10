@@ -39,12 +39,6 @@ async def verify_news(news: InputNewsType):
         content = fetchedNews.description
         
     results = fetchNewsFromGoogle(content)
-    for result in results:
-        print("1")
-        print(f"displayLink: {result['displayLink']}")
-        print(f"Title: {result['title']}")
-        print(f"Link: {result['link']}")
-        # print(f"snippet: {result['snippet']}\n")
         
     return OutputNewsType(label="fake")
 
