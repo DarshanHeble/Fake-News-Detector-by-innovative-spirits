@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-from pydantic import BaseModel,Field
-from typing import Literal,Optional
 from ..Types.types import FetchedNewsType
 
+
+# uncomment these line when executing this function alone
+# from pydantic import BaseModel,Field
+# from typing import Literal,Optional
 # class FetchedNewsType(BaseModel):
 #     title: Optional[str] = Field(None, description="The headline or title of the news article.")
 #     description: Optional[str] = Field(None, description="The description or summary of the news article.")
