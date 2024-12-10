@@ -1,18 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
-from ..Types.types import FetchedNewsType
+from ..Types.types import ScrapedNewsType
 
 
 # uncomment these line when executing this function alone
 # from pydantic import BaseModel,Field
 # from typing import Literal,Optional
-# class FetchedNewsType(BaseModel):
+# class ScrapedNewsType(BaseModel):
 #     title: Optional[str] = Field(None, description="The headline or title of the news article.")
 #     description: Optional[str] = Field(None, description="The description or summary of the news article.")
 #     published_at: Optional[str] = Field(None, description="The published date and time of the news article.")
 
 
-def extract_headline_from_meta(url)-> FetchedNewsType:
+def extract_headline_from_meta(url)-> ScrapedNewsType:
     response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
     soup = BeautifulSoup(response.content, 'html.parser')
     
@@ -24,7 +24,7 @@ def extract_headline_from_meta(url)-> FetchedNewsType:
     published_at = soup.find('meta', property='article:published_time') or soup.find('time')
 
     # Construct the FetchedNewsType instance for type support
-    news_data = FetchedNewsType(
+    news_data = ScrapedNewsType(
         title=title['content'] if title and title.has_attr('content') else title.string if title else None,
         description=description['content'] if description and description.has_attr('content') else None,
         published_at=published_at['content'] if published_at and published_at.has_attr('content') else published_at.string if published_at else None

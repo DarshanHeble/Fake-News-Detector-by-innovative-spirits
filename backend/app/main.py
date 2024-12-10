@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_headline_from_meta
+from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
 
 # Define lifecycle event handlers
 def on_startup():
@@ -34,15 +35,16 @@ async def verify_news(news: InputNewsType):
     content = news.content
     
     if (category == "url"):
-        print("url")
         fetchedNews = extract_headline_from_meta(content)
         content = fetchedNews.description
         
-    elif (category == "text"):
-        print("text")
-        
-    print(content)
-    
+    results = fetchNewsFromGoogle(content)
+    for result in results:
+        print("1")
+        print(f"displayLink: {result['displayLink']}")
+        print(f"Title: {result['title']}")
+        print(f"Link: {result['link']}")
+        # print(f"snippet: {result['snippet']}\n")
         
     return OutputNewsType(label="fake")
 

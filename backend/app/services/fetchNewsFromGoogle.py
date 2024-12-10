@@ -1,12 +1,13 @@
 #import all libraries and variables
 import requests
 from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
+from ..Types.types import FetchedNewsType
 
 """
 code explanation here(coming soon)
 
 """
-def fetchNewsFromGoogle(query):
+def fetchNewsFromGoogle(query)-> FetchedNewsType:
     params = {
         "q": query,
         "cx": CSE_ID,
@@ -16,6 +17,10 @@ def fetchNewsFromGoogle(query):
     
     response = requests.get(BASE_SEARCH_URL, params=params)
     response.raise_for_status()     # Raise an error for bad requests
+    # result = response.json().get("items")
+    # result = FetchedNewsType(
+        
+    # )
     
     return response.json().get("items")
 
@@ -26,7 +31,7 @@ def fetchNewsFromGoogle(query):
 
 # results = google_news_search(query, API_KEY, CSE_ID)
 
-# Print titles and links
+# # Print titles and links
 # for result in results:
 #     print(f"Link: {result['displayLink']}\n")
 #     print(f"Title: {result['title']}")
