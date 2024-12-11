@@ -1,0 +1,100 @@
+
+.header{
+    width: 100%;
+    height: 70px;
+    padding: 0 1rem;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logocon{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+.logosvg{
+    width: 3rem;
+}
+.fakenewsStyle{
+    font-size: 2em;
+    font-weight: 700;
+}
+.TeamCon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.groupBTN{
+    padding: 0.5rem 0.5rem;
+    background-color: rgb(0, 0, 0);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.groupBTNfont{
+    color: white;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.groupImg{
+    width: 4rem;
+}
+
+/* Screen-Breaker */
+@media (max-width: 700px){
+    .header{
+        width: 100%;
+        height: 50px;
+    }
+    .logosvg{
+        width: 2rem;
+    }
+    .fakenewsStyle{
+        font-size: 1.5em;
+    }
+    .groupBTNfont{
+        color: white;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+    .groupImg{
+        width: 3rem;
+    }
+}
+@media (max-width: 471px){
+    .logosvg{
+        width: 1.5rem;
+    }
+    .fakenewsStyle{
+        font-size: 1em;
+    }
+    .groupBTNfont{
+        color: white;
+        font-size: 0.7em;
+        font-weight: 500;
+    }
+    .groupImg{
+        width: 2.1rem;
+    }
+}
+@media (max-width: 349px){
+    .logosvg{
+        width: 1.3rem;
+    }
+    .fakenewsStyle{
+        font-size: 0.8em;
+    }
+    .groupBTNfont{
+        color: white;
+        font-size: 0.7em;
+        font-weight: 500;
+    }
+    .groupImg{
+        width: 2rem;
+    }
+}
