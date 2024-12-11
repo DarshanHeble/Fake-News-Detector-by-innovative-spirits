@@ -13,10 +13,10 @@ class OutputNewsType(BaseModel):
 class ScrapedNewsType(BaseModel):
     title: Optional[str] = Field(None, description="The headline or title of the news article.")
     description: Optional[str] = Field(None, description="The description or summary of the news article.")
-    published_at: Optional[str] = Field(None, description="The published date and time of the news article.")
-    domain: Optional[str] = Field(None, description="The domain link of the link.")
+    # published_at: Optional[str] = Field(None, description="The published date and time of the news article.")     # Not need for our current use case
+    # domain: Optional[str] = Field(None, description="The domain link of the link.")                               # Not need for our current use case
 
 class FetchedNewsType(BaseModel):
-    title: Optional[str] = Field(None, description="The title of the news article.")
     link: Optional[str] = Field(None, description="The link to the news article.")
-    domain: Optional[str] = Field(None, description="The domain link of the link.")
+    # title: Optional[str] = Field(None, description="The title of the news article.")                              # Not need for our use case
+    # domain: Optional[str] = Field(None, description="The domain link of the link.")                               # Not need for our use case

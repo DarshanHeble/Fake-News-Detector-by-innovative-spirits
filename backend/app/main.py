@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
-from .services.webScrap import extract_headline_from_meta
+from .services.webScrap import extract_news_from_meta
 from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
 from .services.fetchNewsFromGoogle import fetch_and_scrape_news
 
@@ -37,24 +37,15 @@ async def verify_news(news: InputNewsType):
     
     # ----------------------------------
     if (category == "url"):
-        fetchedNews = extract_headline_from_meta(content)
+        fetchedNews = extract_news_from_meta(content)
         content = fetchedNews.title
     # ----------------------------------
     
     # This function must return news articles 
-    results: list[ScrapedNewsType] = fetchNewsFromGoogle(content)
+    results: list[ScrapedNewsType] = fetch_and_scrape_news(content)
     # print(results)
     
     return OutputNewsType(label="fake")
-
-@app.get("/fetch-scrape-news")
-async def fetch_scrape_news(query: str):
-    try:
-        results = fetch_and_scrape_news(query)
-        return {"articles": results}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 
 # Checking connection status manually
 @app.get("/connection-status")
