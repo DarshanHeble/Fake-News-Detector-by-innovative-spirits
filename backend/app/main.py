@@ -40,7 +40,7 @@ async def verify_news(news: InputNewsType):
         content = fetchedNews.description
     # ----------------------------------
     
-    # This function must return news articles which should be type "FetchedNewsType"
+    # This function must return news articles 
     results = fetchNewsFromGoogle(content)
     
     return OutputNewsType(label="fake")
