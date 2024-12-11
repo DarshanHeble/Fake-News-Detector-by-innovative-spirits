@@ -7,7 +7,7 @@ from ..Types.types import FetchedNewsType
 code explanation here(coming soon)
 
 """
-def fetchNewsFromGoogle(query)-> FetchedNewsType:
+def fetchNewsFromGoogle(query)-> list[FetchedNewsType]:
     params = {
         "q": query,
         "cx": CSE_ID,
@@ -19,10 +19,20 @@ def fetchNewsFromGoogle(query)-> FetchedNewsType:
     response.raise_for_status()     # Raise an error for bad requests
     # result = response.json().get("items")
     # result = FetchedNewsType(
-        
+    articles = response.json().get("items", [])
     # )
+    fetched_news  = []
+    for article in articles:
+        news_item = FetchedNewsType(
+            title=article.get("title"),
+            link=article.get("link"),
+            domain=article.get("link")  # the domain
+        )
+        fetched_news.append(news_item)
     
-    return response.json().get("items")
+    return fetched_news
+
+    # return response.json().get("items")
 
 
 
