@@ -9,3 +9,6 @@ joblib
 nltk
 scipy
 numpy
+
+# Other libraries
+rake-nltk

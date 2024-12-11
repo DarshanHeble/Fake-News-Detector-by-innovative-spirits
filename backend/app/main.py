@@ -41,7 +41,11 @@ async def verify_news(news: InputNewsType):
     # ----------------------------------
     
     # This function must return news articles 
-    results = fetchNewsFromGoogle(content)
+    # results = fetchNewsFromGoogle(content)
+    # print(results)
+    
+    # for news in results:
+    #     print(model_handler.predict_stance())
     
     return OutputNewsType(label="fake")
 
