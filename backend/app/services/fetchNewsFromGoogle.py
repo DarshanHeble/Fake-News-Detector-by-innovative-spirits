@@ -26,7 +26,7 @@ def fetchNewsFromGoogle(query: str) -> list[FetchedNewsType]:
         news_item = FetchedNewsType(
             # title=article.get("title"),
             link=article.get("link"),
-            # domain=article.get("link")
+            # domain=article.get("displayLink")
         )
         fetched_news.append(news_item)
     
@@ -37,14 +37,15 @@ def fetch_and_scrape_news(query: str) -> list[ScrapedNewsType]:
     # Fetch news articles from Google
     articles = fetchNewsFromGoogle(query)
     
-    scraped_articles = []
+    scraped_articles: list[ScrapedNewsType] = []
     for article in articles:
         content = extract_news_from_meta(article.link)
-        scraped_articles.append({
-            'title': article.title,
-            'link': article.link,
-            'content': content
-        })
+        
+        news = ScrapedNewsType(
+            title= content.title,
+            description = content.description
+        )
+        scraped_articles.append(news)
         
     return scraped_articles
 

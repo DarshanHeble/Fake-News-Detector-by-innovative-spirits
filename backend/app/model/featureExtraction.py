@@ -2,7 +2,7 @@ import re
 import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
-import numpy as np
+import numpy 
 from scipy.sparse import coo_matrix
 
 nltk.download('punkt')
@@ -30,7 +30,7 @@ def extract_word_overlap(headlines, bodies):
         word_overlap.append(features)
         
         # Convert the list to a sparse matrix (in order to concatenate the cos sim with other features)
-        word_overlap_sparse = scipy.sparse.coo_matrix(numpy.array(word_overlap)) 
+        word_overlap_sparse = coo_matrix(numpy.array(word_overlap)) 
     return word_overlap_sparse
 
 # Function for extracting the cosine similarity between bodies and headlines. 
@@ -48,7 +48,7 @@ def extract_cosine_similarity(headlines, bodies):
         cos_sim_features.append(cosine_similarity[0][1])
 
     # Convert the list to a sparse matrix (in order to concatenate the cos sim with other features)
-    cos_sim_array = scipy.sparse.coo_matrix(numpy.array(cos_sim_features)) 
+    cos_sim_array = coo_matrix(numpy.array(cos_sim_features)) 
 
     return cos_sim_array
 

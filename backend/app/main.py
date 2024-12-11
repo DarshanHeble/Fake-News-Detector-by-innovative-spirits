@@ -39,11 +39,15 @@ async def verify_news(news: InputNewsType):
     if (category == "url"):
         fetchedNews = extract_news_from_meta(content)
         content = fetchedNews.title
+        print("Input URL extracted")
     # ----------------------------------
     
     # This function must return news articles 
-    results: list[ScrapedNewsType] = fetch_and_scrape_news(content)
-    # print(results)
+    articles = fetch_and_scrape_news(content)
+    print("article extracted")
+    
+    results = model_handler.predict_stance_batch(articles)
+    print(results)
     
     return OutputNewsType(label="fake")
 
