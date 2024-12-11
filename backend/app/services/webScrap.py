@@ -24,6 +24,6 @@ def extract_headline_from_meta(url)-> ScrapedNewsType:
         published_at=published_at['content'] if published_at and published_at.has_attr('content') else published_at.string if published_at else None,
         domain= domain
     )
-    print(news_data)
     
+    # print(news_data)
     return news_data
