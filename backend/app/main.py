@@ -4,6 +4,7 @@ from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_headline_from_meta
 from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
+from .services.fetchNewsFromGoogle import fetch_and_scrape_news
 
 # Define lifecycle event handlers
 def on_startup():
@@ -48,6 +49,15 @@ async def verify_news(news: InputNewsType):
     #     print(model_handler.predict_stance())
     
     return OutputNewsType(label="fake")
+
+@app.get("/fetch-scrape-news")
+async def fetch_scrape_news(query: str):
+    try:
+        results = fetch_and_scrape_news(query)
+        return {"articles": results}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Checking connection status manually
 @app.get("/connection-status")
