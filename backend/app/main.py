@@ -6,7 +6,6 @@ from .services.webScrap import extract_news_from_meta
 from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
 from .services.fetchNewsFromGoogle import fetch_and_scrape_news
 
-
 # Define lifecycle event handlers
 def on_startup():
     global model_handler
@@ -33,22 +32,22 @@ app.add_middleware(
 # verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
-    category = news.category
-    content = news.content
+    # category = news.category
+    # content = news.content
     
-    # ----------------------------------
-    if (category == "url"):
-        fetchedNews = extract_news_from_meta(content)
-        content = fetchedNews.title
-        print("Input URL extracted")
-    # ----------------------------------
+    # # ----------------------------------
+    # if (category == "url"):
+    #     fetchedNews = extract_news_from_meta(content)
+    #     content = fetchedNews.title
+    #     print("Input URL extracted")
+    # # ----------------------------------
     
-    # This function must return news articles 
-    articles = fetch_and_scrape_news(content)
-    print("article extracted")
+    # # This function must return news articles 
+    # articles = fetch_and_scrape_news(content)
+    # print("article extracted")
     
-    results = model_handler.predict_stance_batch(articles)
-    print(results)
+    # results = model_handler.predict_stance_batch(articles)
+    # print(results)
 
     # is_fake = fetch_and_scrape_news(news.content)  # Replace with actual model prediction logic
     # label = "fake" if is_fake else "real"  # Example logic
