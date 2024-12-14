@@ -6,6 +6,7 @@ from .services.webScrap import extract_news_from_meta
 from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
 from .services.fetchNewsFromGoogle import fetch_and_scrape_news
 
+
 # Define lifecycle event handlers
 def on_startup():
     global model_handler
@@ -48,7 +49,10 @@ async def verify_news(news: InputNewsType):
     
     results = model_handler.predict_stance_batch(articles)
     print(results)
-    
+
+    # is_fake = fetch_and_scrape_news(news.content)  # Replace with actual model prediction logic
+    # label = "fake" if is_fake else "real"  # Example logic
+    # return OutputNewsType(label=label)
     return OutputNewsType(label="fake")
 
 # Checking connection status manually

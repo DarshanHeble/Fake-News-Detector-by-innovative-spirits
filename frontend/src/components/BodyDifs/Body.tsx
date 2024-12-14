@@ -1,7 +1,22 @@
+
 import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
+import { useState } from "react";
+import verifyNews from "@services/verifyNews";
 
 export const Body = () => {
+
+  const [inputValue, setInputValue] = useState(""); // State for input value
+  const [result, setResult] = useState(null);
+
+  const hello = async () => {
+    console.log("hello world");
+   const result = await verifyNews({category: "text",content: inputValue})
+   
+   console.log(result);
+  };
+
+
   return (
     <div className={style.mainwork}>
       <img className={style.fndb} src={FNDB} alt="FNDB" />
@@ -108,13 +123,22 @@ export const Body = () => {
               className={style.inputbox}
               type="text"
               placeholder="Type String or URL"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)} // Update state on input change
             />
           </div>
           <div className={style.btncon}>
             <div className={style.btnimg}>Image</div>
-            <div className={style.btndetect}>Detect</div>
+            <div className={style.btndetect} onClick={hello}>Detect</div>
           </div>
         </div>
+        {result && (
+          <div className={style.result}>
+            <h3>Result:</h3>
+            {/* <p>Label: {result.label}</p>  */}
+            <p>{JSON.stringify(result)}</p>{/* Display the label from OutputNewsType */}
+          </div>
+        )}
       </div>
     </div>
   );
