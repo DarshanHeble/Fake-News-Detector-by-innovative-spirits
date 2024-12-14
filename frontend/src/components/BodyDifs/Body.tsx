@@ -1,21 +1,18 @@
-
 import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
 import { useState } from "react";
 import verifyNews from "@services/verifyNews";
 
 export const Body = () => {
-
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState(null);
 
   const hello = async () => {
     console.log("hello world");
-   const result = await verifyNews({category: "text",content: inputValue})
-   
-   console.log(result);
-  };
+    const result = await verifyNews({ category: "text", content: inputValue });
 
+    console.log(result);
+  };
 
   return (
     <div className={style.mainwork}>
@@ -67,56 +64,56 @@ export const Body = () => {
               <path
                 d="M144 63L145 133"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 26L144 63"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 26L22 63"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 169L145 134"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 97L22 63"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 97L143 63"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 97V168"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M22 63V134"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
               <path
                 d="M84 169L22 135"
                 stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
             </svg>
             <input
@@ -129,14 +126,17 @@ export const Body = () => {
           </div>
           <div className={style.btncon}>
             <div className={style.btnimg}>Image</div>
-            <div className={style.btndetect} onClick={hello}>Detect</div>
+            <div className={style.btndetect} onClick={hello}>
+              Detect
+            </div>
           </div>
         </div>
         {result && (
           <div className={style.result}>
             <h3>Result:</h3>
             {/* <p>Label: {result.label}</p>  */}
-            <p>{JSON.stringify(result)}</p>{/* Display the label from OutputNewsType */}
+            <p>{JSON.stringify(result)}</p>
+            {/* Display the label from OutputNewsType */}
           </div>
         )}
       </div>
