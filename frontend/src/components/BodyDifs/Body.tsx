@@ -2,15 +2,16 @@ import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
 import { useState } from "react";
 import verifyNews from "@services/verifyNews";
+import { OutputNewsType } from "@Types/types";
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<false | OutputNewsType>(false);
 
   const hello = async () => {
     console.log("hello world");
     const result = await verifyNews({ category: "text", content: inputValue });
-
+    setResult(result);
     console.log(result);
   };
 
