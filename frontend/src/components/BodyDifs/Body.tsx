@@ -7,12 +7,23 @@ import { OutputNewsType } from "@Types/types";
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState<false | OutputNewsType>(false);
+  const [color, setColor] = useState("black");
 
   const hello = async () => {
     console.log("hello world");
     const result = await verifyNews({ category: "text", content: inputValue });
     setResult(result);
     console.log(result);
+
+    try {//print result according to based on true false 
+      const result = await verifyNews({ category: "text", content: inputValue });
+      setResult(result);
+      setColor(result ? "red" : "green");
+    } catch (error) {
+      console.error("Error verifying news:", error);
+      setResult(false);
+      setColor("red");
+    }
   };
 
   return (
@@ -134,9 +145,9 @@ export const Body = () => {
         </div>
         {result && (
           <div className={style.result}>
-            <h3>Result:</h3>
-            {/* <p>Label: {result.label}</p>  */}
-            <p>{JSON.stringify(result)}</p>
+            <h3 style={{ color }}>Result:</h3>
+            <p style={{ color }}>{JSON.stringify(result)}</p>
+           
             {/* Display the label from OutputNewsType */}
           </div>
         )}
