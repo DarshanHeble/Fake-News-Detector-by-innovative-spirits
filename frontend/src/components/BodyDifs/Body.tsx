@@ -145,9 +145,11 @@ export const Body = () => {
         </div>
         {result && (
           <div className={style.result}>
-            <h3 style={{ color }}>Result:</h3>
-            <p style={{ color }}>{JSON.stringify(result)}</p>
-           
+            {/* <h3 style={{ color }}>Result:</h3> */}
+            {/* <p style={{ color }}>{JSON.stringify(result)}</p> */}
+            <h2 style={{ color }}>
+                {result.label ? `Result: This article is ${result.label}` : "No label found."}
+            </h2>
             {/* Display the label from OutputNewsType */}
           </div>
         )}
