@@ -123,3 +123,83 @@
 @media (max-width: 349px){
     
 }
+/* pop-up */
+.popup {
+    position: fixed; /* Fixed position to stay on screen */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's above other elements */
+    animation: fadeIn 0.5s ease-in-out; /* Fade-in animation */
+  }
+  
+  .popupContent {
+    background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient */
+    padding: 30px 40px;
+    border-radius: 12px; /* Rounded corners */
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Deep shadow for depth */
+    animation: slideIn 0.6s ease-in-out; /* Slide-in animation */
+    max-width: 400px;
+    width: 80%;
+  }
+  
+  .popupContent h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(45deg, #ff416c, #ff4b2b); /* Gradient text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Apply gradient to text */
+    margin-bottom: 15px;
+  }
+  
+  .popupContent p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  .popupContent button {
+    background: #ff416c; /* Vibrant button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .popupContent button:hover {
+    background: #ff4b2b;
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  /* pop-up end */
+  

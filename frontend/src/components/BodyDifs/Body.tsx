@@ -7,19 +7,19 @@ import { OutputNewsType } from "@Types/types";
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState<false | OutputNewsType>(false);
-  const [color, setColor] = useState("black");
   const [loading, setLoading] = useState(false);
-  
-  const hello = async () => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleDetect = async () => {
     setLoading(true); // Start loading
     try {
-      const result = await verifyNews({ category: "text", content: inputValue });
-      setResult(result);
-      setColor(result ? "red" : "green");
+      const response = await verifyNews({ category: "text", content: inputValue });
+      setResult(response);
+      setShowPopup(true); // Show popup on successful result
     } catch (error) {
       console.error("Error verifying news:", error);
       setResult(false);
-      setColor("red");
+      setShowPopup(true); // Show popup even on failure
     } finally {
       setLoading(false); // Stop loading
     }
@@ -27,16 +27,20 @@ export const Body = () => {
 
   return (
     <div className={style.mainwork}>
+      {/* Background Image */}
       <img className={style.fndb} src={FNDB} alt="FNDB" />
+
+      {/* Header Section */}
       <div className={style.mainlettercon}>
-        <span className={style.mainletterstyle}>Detect Fake News With </span>
+        <span className={style.mainletterstyle}>Detect Fake News With</span>
         <br />
-        <span className={style.mainletterstyle}>
-          Our RealTime AI Fake News Detector
-        </span>
+        <span className={style.mainletterstyle}>Our Real-Time AI Fake News Detector</span>
       </div>
+
+      {/* Main Content */}
       <div className={style.mainCon}>
         <div className={style.processCon}>
+          {/* Input Section */}
           <div className={style.textBox}>
             <svg
               className={style.ailogo}
@@ -130,27 +134,47 @@ export const Body = () => {
             <input
               className={style.inputbox}
               type="text"
-              placeholder="Type String or URL"
+              placeholder="Type text or URL"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)} // Update state on input change
             />
           </div>
+
+          {/* Button Section */}
           <div className={style.btncon}>
             <div className={style.btnimg}>Image</div>
             <div
               className={style.btndetect}
-              onClick={!loading ? hello : undefined} // Prevent double-clicking during loading
+              onClick={!loading ? handleDetect : undefined} // Prevent double-click during loading
               style={{ pointerEvents: loading ? "none" : "auto", opacity: loading ? 0.6 : 1 }}
             >
               {loading ? "Loading..." : "Detect"}
             </div>
           </div>
         </div>
-        {result && (
-          <div className={style.result}>
-            <h2 style={{ color }}>
-              {result.label ? `Result: This article is ${result.label}` : "No label found."}
-            </h2>
+
+        {/* Popup Section */}
+        {showPopup && (
+          <div className={style.popup}>
+            <div className={style.popupContent}>
+              {result ? (
+                <>
+                  <h2 style={{ color: result.label === "fake" ? "red" : "green" }}>
+                    Result: This article is {result.label}
+                  </h2>
+                  <p>
+                    {result.label === "fake"
+                      ? "Be cautious! This news article might be misleading."
+                      : "This article seems genuine. Stay informed!"}
+                  </p>
+                </>
+              ) : (
+                <h2 style={{ color: "red" }}>Error verifying news. Please try again.</h2>
+              )}
+              <button className={style.closeBtn} onClick={() => setShowPopup(false)}>
+                Close
+              </button>
+            </div>
           </div>
         )}
       </div>
