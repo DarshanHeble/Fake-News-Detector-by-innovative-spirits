@@ -8,14 +8,11 @@ export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState<false | OutputNewsType>(false);
   const [color, setColor] = useState("black");
-
+  const [loading, setLoading] = useState(false);
+  
   const hello = async () => {
-    console.log("hello world");
-    const result = await verifyNews({ category: "text", content: inputValue });
-    setResult(result);
-    console.log(result);
-
-    try {//print result according to based on true false 
+    setLoading(true); // Start loading
+    try {
       const result = await verifyNews({ category: "text", content: inputValue });
       setResult(result);
       setColor(result ? "red" : "green");
@@ -23,6 +20,8 @@ export const Body = () => {
       console.error("Error verifying news:", error);
       setResult(false);
       setColor("red");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -138,19 +137,20 @@ export const Body = () => {
           </div>
           <div className={style.btncon}>
             <div className={style.btnimg}>Image</div>
-            <div className={style.btndetect} onClick={hello}>
-              Detect
+            <div
+              className={style.btndetect}
+              onClick={!loading ? hello : undefined} // Prevent double-clicking during loading
+              style={{ pointerEvents: loading ? "none" : "auto", opacity: loading ? 0.6 : 1 }}
+            >
+              {loading ? "Loading..." : "Detect"}
             </div>
           </div>
         </div>
         {result && (
           <div className={style.result}>
-            {/* <h3 style={{ color }}>Result:</h3> */}
-            {/* <p style={{ color }}>{JSON.stringify(result)}</p> */}
             <h2 style={{ color }}>
-                {result.label ? `Result: This article is ${result.label}` : "No label found."}
+              {result.label ? `Result: This article is ${result.label}` : "No label found."}
             </h2>
-            {/* Display the label from OutputNewsType */}
           </div>
         )}
       </div>
