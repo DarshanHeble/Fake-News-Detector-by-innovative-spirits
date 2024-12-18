@@ -4,7 +4,11 @@ from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
 from .services.fetchNewsFromGoogle import fetchNewsFromGoogle
-from .services.fetchNewsFromGoogle import fetch_and_scrape_news
+from .services.fetchNewsFromGoogle import fetch_and_scrape_news_from_google
+from .previousSolution.analyseStance import analyze_stance
+from .previousSolution.aggregateStance import aggregate_weighted_stance
+from .services.getRelatedArticles import fetch_and_scrape_news_from_newsApi
+from .services.extractKeywords import extract_keywords
 
 # Define lifecycle event handlers
 def on_startup():
@@ -18,7 +22,8 @@ def on_shutdown():
     print("Model Uninitialized")
 
 # Initialize FastAPI app
-app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
+# app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
+app = FastAPI()
 
 # CORS configuration (update the allowed origins as needed)
 app.add_middleware(
@@ -32,26 +37,31 @@ app.add_middleware(
 # verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
-    # category = news.category
-    # content = news.content
+    category = news.category
+    content = news.content
     
-    # # ----------------------------------
-    # if (category == "url"):
-    #     fetchedNews = extract_news_from_meta(content)
-    #     content = fetchedNews.title
-    #     print("Input URL extracted")
-    # # ----------------------------------
+    # ----------------------------------
+    if (category == "url"):
+        fetchedNews = extract_news_from_meta(content)
+        content = fetchedNews.title
+        print("Input URL extracted")
+    # ----------------------------------
     
-    # # This function must return news articles 
-    # articles = fetch_and_scrape_news(content)
+    # This function must return news articles 
+    # articles = fetch_and_scrape_news_from_google(content)
     # print("article extracted")
     
-    # results = model_handler.predict_stance_batch(articles)
-    # print(results)
+    articles = fetch_and_scrape_news_from_newsApi(extract_keywords(content))
+    # print(articles)
+    
+    # Analyze stance
+    analyzed_articles_stances = analyze_stance(content, articles)
+    print("Analyzed Stances:", analyzed_articles_stances)
 
-    # is_fake = fetch_and_scrape_news(news.content)  # Replace with actual model prediction logic
-    # label = "fake" if is_fake else "real"  # Example logic
-    # return OutputNewsType(label=label)
+    # Aggregate stances
+    result = aggregate_weighted_stance(analyzed_articles_stances)
+    print("Final Aggregated Stance:", result)
+    
     return OutputNewsType(label="fake")
 
 # Checking connection status manually

@@ -4,12 +4,12 @@ from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
 from ..Types.types import FetchedNewsType, ScrapedNewsType
 from .webScrap import extract_news_from_meta
 
-"""
-code explanation here(coming soon)
-
-"""
 
 def fetchNewsFromGoogle(query: str) -> list[FetchedNewsType]:
+    """
+    code explanation here(coming soon)
+
+    """
     params = {
         "q": query,
         "cx": CSE_ID,
@@ -33,7 +33,8 @@ def fetchNewsFromGoogle(query: str) -> list[FetchedNewsType]:
     return fetched_news
 
 
-def fetch_and_scrape_news(query: str) -> list[ScrapedNewsType]:
+def fetch_and_scrape_news_from_google(query: str) -> list[ScrapedNewsType]:
+    print("Fetching news from google ...")
     # Fetch news articles from Google
     articles = fetchNewsFromGoogle(query)
     
@@ -54,20 +55,3 @@ def fetch_and_scrape_news(query: str) -> list[ScrapedNewsType]:
 # results = fetch_and_scrape_news(query)
 # for result in results:
 #     print(f"Title: {result['title']}\nLink: {result['link']}\nContent: {result['content']}\n")
-
-# ---------------------------------------------------------------------------------------------------------------------------
-
-# def scrape_web_page(url: str) -> str:
-#     try:
-#         response = requests.get(url)
-#         response.raise_for_status()  # Raise an error for bad responses
-
-#         soup = BeautifulSoup(response.text, 'html.parser')
-#         paragraphs = soup.find_all('p')
-#         page_content = ' '.join([para.get_text() for para in paragraphs])
-
-#         return page_content
-
-#     except requests.exceptions.RequestException as e:
-#         print(f"An error occurred: {e}")
-#         return None
