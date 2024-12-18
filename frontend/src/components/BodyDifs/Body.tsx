@@ -11,6 +11,13 @@ export const Body = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleDetect = async () => {
+    if (!inputValue.trim() ) {
+      alert("Please enter text or a URL to analyze."); //alert message style needed..
+      setLoading(false);
+      return;
+    }
+    
+
     setLoading(true); // Start loading
     try {
       const response = await verifyNews({ category: "text", content: inputValue });
@@ -169,6 +176,7 @@ export const Body = () => {
                   </p>
                 </>
               ) : (
+                
                 <h2 style={{ color: "red" }}>Error verifying news. Please try again.</h2>
               )}
               <button className={style.closeBtn} onClick={() => setShowPopup(false)}>
