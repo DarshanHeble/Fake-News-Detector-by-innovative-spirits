@@ -3,13 +3,20 @@ import requests
 from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
 from ..Types.types import FetchedNewsType, ScrapedNewsType
 from .webScrap import extract_news_from_meta
+from typing import List
 
 
-def fetchNewsFromGoogle(query: str) -> list[FetchedNewsType]:
+def fetchNewsFromGoogle(keywords: List[str]) -> list[FetchedNewsType]:
     """
-    code explanation here(coming soon)
+    Fetches news links from Google Custom Search API using given keywords.
 
+    Args:
+        keywords: A list of keywords to form the search query.
+
+    Returns:
+        A list of FetchedNewsType containing news article links.
     """
+    query = '+'.join(keywords)
     params = {
         "q": query,
         "cx": CSE_ID,
@@ -33,10 +40,21 @@ def fetchNewsFromGoogle(query: str) -> list[FetchedNewsType]:
     return fetched_news
 
 
-def fetch_and_scrape_news_from_google(query: str) -> list[ScrapedNewsType]:
+def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsType]:
+    """
+    Fetches news articles using Google Custom Search and scrapes metadata.
+
+    Args:
+        keywords: A list of keywords to form the search query.
+
+    Returns:
+        A list of ScrapedNewsType containing titles and descriptions.
+    """
+    
     print("Fetching news from google ...")
     # Fetch news articles from Google
-    articles = fetchNewsFromGoogle(query)
+    articles = fetchNewsFromGoogle(keywords)
+    print(f"Fetched {len(articles)} articles from Google.")
     
     scraped_articles: list[ScrapedNewsType] = []
     for article in articles:

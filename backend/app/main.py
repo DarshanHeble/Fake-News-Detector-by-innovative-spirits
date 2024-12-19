@@ -47,12 +47,24 @@ async def verify_news(news: InputNewsType):
         print("Input URL extracted")
     # ----------------------------------
     
-    # This function must return news articles 
-    # articles = fetch_and_scrape_news_from_google(content)
-    # print("article extracted")
+    # Extract keywords from content(User Inputted News)
+    keywords = extract_keywords(content)
     
-    articles = fetch_and_scrape_news_from_newsApi(extract_keywords(content))
-    # print(articles)
+    # First, try to fetch articles from NewsAPI
+    articles = fetch_and_scrape_news_from_newsApi(keywords)
+    print("Articles using NewsAPI:", articles)
+
+    # Check if NewsAPI returned a sufficient number of articles
+    if not articles or len(articles) < 3:  # Adjust the threshold (e.g., 3) as per your requirement
+        print("Not enough articles found using NewsAPI. Fetching from Google search...")
+        additional_articles = fetch_and_scrape_news_from_google(keywords)
+
+        # Combine articles from NewsAPI and Google search
+        if additional_articles:
+            articles.extend(additional_articles)
+
+    print("Final Articles List:", articles)
+
     
     # Analyze stance
     analyzed_articles_stances = analyze_stance(content, articles)

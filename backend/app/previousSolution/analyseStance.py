@@ -20,7 +20,7 @@ def analyze_stance(claim: str, articles: List[ScrapedNewsType]) -> Optional[List
     """
     
     if not articles:
-        print("Could not find articles while analyzing")
+        print("No Articles provided")
         return articles
     
     # Preprocess and vectorize claim and article content
