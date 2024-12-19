@@ -6,5 +6,5 @@ export type InputNewsType = {
 };
 
 export type OutputNewsType = {
-  label: "real" | "fake";
+  label: "real" | "fake" | "neutral";
 };
