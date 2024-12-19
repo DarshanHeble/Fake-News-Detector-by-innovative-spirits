@@ -34,47 +34,83 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# verify news end point starts here
 @app.post("/verify-news", response_model=OutputNewsType)
 async def verify_news(news: InputNewsType):
-    category = news.category
-    content = news.content
-    
-    # ----------------------------------
-    if (category == "url"):
-        fetchedNews = extract_news_from_meta(content)
-        content = fetchedNews.title
-        print("Input URL extracted")
-    # ----------------------------------
-    
-    # Extract keywords from content(User Inputted News)
-    keywords = extract_keywords(content)
-    
-    # First, try to fetch articles from NewsAPI
-    articles = fetch_and_scrape_news_from_newsApi(keywords)
-    print("Articles using NewsAPI:", articles)
+    try:
+        category = news.category
+        content = news.content
+        
+        # ----------------------------------
+        if category == "url":
+            try:
+                fetchedNews = extract_news_from_meta(content)
+                if not fetchedNews or not fetchedNews.title:
+                    raise ValueError("Failed to extract title from URL.")
+                content = fetchedNews.title
+                print("Input URL extracted")
+            except Exception as e:
+                print(f"Error extracting content from URL: {e}")
+                raise HTTPException(status_code=400, detail="Invalid or inaccessible URL.")
+        # ----------------------------------
+        
+        # Extract keywords from content (User Inputted News)
+        try:
+            keywords = extract_keywords(content)
+            if not keywords:
+                raise ValueError("Failed to extract keywords.")
+        except Exception as e:
+            print(f"Error extracting keywords: {e}")
+            raise HTTPException(status_code=400, detail="Failed to extract keywords from the provided content.")
+        
+        # Fetch articles from NewsAPI
+        try:
+            articles = fetch_and_scrape_news_from_newsApi(keywords)
+            print("Articles using NewsAPI:", articles)
+        except Exception as e:
+            print(f"Error fetching articles from NewsAPI: {e}")
+            articles = []
 
-    # Check if NewsAPI returned a sufficient number of articles
-    if not articles or len(articles) < 3:  # Adjust the threshold (e.g., 3) as per your requirement
-        print("Not enough articles found using NewsAPI. Fetching from Google search...")
-        additional_articles = fetch_and_scrape_news_from_google(keywords)
+        # Check if NewsAPI returned sufficient articles; fetch from Google if not
+        if not articles or len(articles) < 3:
+            try:
+                print("Not enough articles found using NewsAPI. Fetching from Google search...")
+                additional_articles = fetch_and_scrape_news_from_google(keywords)
+                if additional_articles:
+                    articles.extend(additional_articles)
+            except Exception as e:
+                print(f"Error fetching articles from Google search: {e}")
+        
+        if not articles:
+            raise HTTPException(status_code=404, detail="No related articles found for the given content.")
 
-        # Combine articles from NewsAPI and Google search
-        if additional_articles:
-            articles.extend(additional_articles)
+        print("Final Articles List:", articles)
+        
+        # Analyze stance
+        try:
+            analyzed_articles_stances = analyze_stance(content, articles)
+            print("Analyzed Stances:", analyzed_articles_stances)
+        except Exception as e:
+            print(f"Error analyzing stances: {e}")
+            raise HTTPException(status_code=500, detail="Error analyzing stances of articles.")
+        
+        # Aggregate stances
+        try:
+            result = aggregate_weighted_stance(analyzed_articles_stances)
+            print("Final Aggregated Stance:", result)
+        except Exception as e:
+            print(f"Error aggregating stance: {e}")
+            raise HTTPException(status_code=500, detail="Error aggregating stances.")
 
-    print("Final Articles List:", articles)
-
+        return OutputNewsType(label=result)
     
-    # Analyze stance
-    analyzed_articles_stances = analyze_stance(content, articles)
-    print("Analyzed Stances:", analyzed_articles_stances)
+    except HTTPException as http_exc:
+        # Re-raise HTTPExceptions for FastAPI to handle
+        raise http_exc
+    except Exception as e:
+        # Catch-all for unexpected errors
+        print(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="An unexpected error occurred while processing the request.")
 
-    # Aggregate stances
-    result = aggregate_weighted_stance(analyzed_articles_stances)
-    print("Final Aggregated Stance:", result)
-    
-    return OutputNewsType(label = result)
 
 # Checking connection status manually
 @app.get("/connection-status")
