@@ -8,7 +8,7 @@ class InputNewsType(BaseModel):
 
 # will update this class in future
 class OutputNewsType(BaseModel):
-    label: Literal["real", "fake"] = Field(..., description="The classification label for the news article. 'real' indicates the article is truthful, while 'fake' indicates false information.")
+    label: Literal["real", "fake", "neutral"] = Field(..., description="The classification label for the news article. 'real' indicates the article is truthful, while 'fake' indicates false information.")
 
 class ScrapedNewsType(BaseModel):
     """

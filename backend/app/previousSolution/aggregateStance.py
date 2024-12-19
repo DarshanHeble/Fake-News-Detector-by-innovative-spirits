@@ -21,7 +21,7 @@ def aggregate_weighted_stance(articles: List[ScrapedNewsTypeWithStance]) -> str:
     
     if not articles:
         print("No articles provided.")
-        return "Neutral" # Return neutral for empty input
+        return "neutral" # Return neutral for empty input
     
     weighted_stance_counts = Counter()
     
