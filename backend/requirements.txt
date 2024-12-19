@@ -14,3 +14,7 @@ numpy
 
 # Other libraries
 rake-nltk
+# bs4
+urllib3
+# typing
+requests
