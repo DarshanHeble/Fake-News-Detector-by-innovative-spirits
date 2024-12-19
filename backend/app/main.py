@@ -62,7 +62,7 @@ async def verify_news(news: InputNewsType):
     result = aggregate_weighted_stance(analyzed_articles_stances)
     print("Final Aggregated Stance:", result)
     
-    return OutputNewsType(label="fake")
+    return OutputNewsType(label = result)
 
 # Checking connection status manually
 @app.get("/connection-status")
