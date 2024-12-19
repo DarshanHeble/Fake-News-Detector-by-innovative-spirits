@@ -3,6 +3,7 @@ from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
 from ..Types.types import FetchedNewsType, ScrapedNewsType
 from .webScrap import extract_news_from_meta
 from typing import List
+from mimetypes import guess_type
 
 
 def fetchNewsFromGoogle(keywords: List[str]) -> list[FetchedNewsType]:
@@ -69,14 +70,25 @@ def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsTy
         return []
 
     scraped_articles: list[ScrapedNewsType] = []
-    for article in articles:
+    for index, article in enumerate(articles, start=1):
+        print(f"Scraping article {index}/{len(articles)}: {article.link}")
+
+        # Skip unsupported file types (e.g., PDF)
+        mime_type, _ = guess_type(article.link)
+        if mime_type and not mime_type.startswith("text/html"):
+            print(f"Skipping unsupported format: {article.link} (MIME type: {mime_type})")
+            continue
+
         try:
             content = extract_news_from_meta(article.link)
-            news = ScrapedNewsType(
-                title=content.title,
-                description=content.description
-            )
-            scraped_articles.append(news)
+            if content:
+                news = ScrapedNewsType(
+                    title=content.title,
+                    description=content.description
+                )
+                scraped_articles.append(news)
+            else:
+                print(f"Failed to extract content for: {article.link}")
         except Exception as e:
             print(f"Error scraping article: {article.link} - {e}")
 

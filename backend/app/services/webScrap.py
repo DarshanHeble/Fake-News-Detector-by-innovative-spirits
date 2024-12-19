@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from typing import Optional
 from ..Types.types import ScrapedNewsType
 
+
 def extract_news_from_meta(url: str) -> Optional[ScrapedNewsType]:
     """
     Extract metadata (title, description, domain) from a URL.
@@ -27,6 +28,9 @@ def extract_news_from_meta(url: str) -> Optional[ScrapedNewsType]:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()  # Raise error for non-200 status codes
 
+        # Set the encoding to handle non-UTF-8 pages
+        response.encoding = response.apparent_encoding
+
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Extract domain
@@ -36,25 +40,29 @@ def extract_news_from_meta(url: str) -> Optional[ScrapedNewsType]:
         # Extract title
         title_tag = soup.find('meta', property='og:title') or soup.find('title')
         title_text = (
-            title_tag['content'] if title_tag and title_tag.has_attr('content') else
-            title_tag.string if title_tag else
-            "Title not available"
+            title_tag['content'].strip() if title_tag and title_tag.has_attr('content') else
+            title_tag.string.strip() if title_tag and title_tag.string else
+            None
         )
 
         # Extract description
         description_tag = soup.find('meta', property='og:description') or soup.find('meta', attrs={'name': 'description'})
         description_text = (
-            description_tag['content'] if description_tag and description_tag.has_attr('content') else
-            "Description not available"
+            description_tag['content'].strip() if description_tag and description_tag.has_attr('content') else
+            None
         )
 
         # Construct and return the ScrapedNewsType object
         return ScrapedNewsType(
-            title=title_text.strip(),
-            description=description_text.strip(),
+            title=title_text,
+            description=description_text,
             domain=domain
         )
 
+    except requests.exceptions.HTTPError as e:
+        print(f"HTTP error while fetching URL: {url} - Status Code: {response.status_code} - {e}")
+    except requests.exceptions.Timeout:
+        print(f"Timeout error while accessing URL: {url}")
     except requests.exceptions.RequestException as e:
         print(f"Error fetching the URL: {url} - {e}")
     except Exception as e:
