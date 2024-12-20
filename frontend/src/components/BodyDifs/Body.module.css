@@ -203,3 +203,16 @@
   }
   /* pop-up end */
   
+  .dropZone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .dropZone:hover {
+    border-color: #007bff;
+    background-color: #f1f1f1;
+  }
+   
+  

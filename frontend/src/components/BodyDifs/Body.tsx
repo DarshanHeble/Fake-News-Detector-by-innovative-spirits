@@ -1,22 +1,35 @@
 import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import verifyNews from "@services/verifyNews";
 import { OutputNewsType } from "@Types/types";
+// import React, {useCallback} from 'react'
+import { useDropzone } from 'react-dropzone'
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState<false | OutputNewsType>(false);
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
+
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    if (acceptedFiles && acceptedFiles.length > 0) {
+      setPreview(acceptedFiles[0].name);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
 
   const handleDetect = async () => {
-    if (!inputValue.trim() ) {
+    if (!inputValue.trim()) {
       alert("Please enter text or a URL to analyze."); //alert message style needed..
       setLoading(false);
       return;
     }
-    
+
 
     setLoading(true); // Start loading
     try {
@@ -147,9 +160,25 @@ export const Body = () => {
             />
           </div>
 
-          {/* Button Section */}
+          {/* Image Button Section */}
           <div className={style.btncon}>
-            <div className={style.btnimg}>Image</div>
+            <div {...getRootProps()} className={style.dropZone}>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here...</p>
+              ) : (
+                <p>Images</p>
+              )}
+            </div>
+
+            {/* Show the file name preview */}
+            {preview && (
+              <div className={style.preview}>
+                <p>Uploaded File: {preview}</p>
+              </div>
+            )}
+
+            {/* image section end*/}
             <div
               className={style.btndetect}
               onClick={!loading ? handleDetect : undefined} // Prevent double-click during loading
@@ -176,7 +205,7 @@ export const Body = () => {
                   </p>
                 </>
               ) : (
-                
+
                 <h2 style={{ color: "red" }}>Error verifying news. Please try again.</h2>
               )}
               <button className={style.closeBtn} onClick={() => setShowPopup(false)}>
