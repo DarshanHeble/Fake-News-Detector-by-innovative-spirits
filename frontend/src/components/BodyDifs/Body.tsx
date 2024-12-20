@@ -24,9 +24,8 @@ export const Body = () => {
 
 
   const handleDetect = async () => {
-    if (!inputValue.trim()) {
-      alert("Please enter text or a URL to analyze."); //alert message style needed..
-      setLoading(false);
+    if (!inputValue.trim() && !preview) {
+      alert("Please provide either text or an image to analyze."); // Replace with a styled alert component if needed
       return;
     }
 
