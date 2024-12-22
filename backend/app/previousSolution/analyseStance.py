@@ -1,5 +1,3 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 from .preprocessAndVectorize import preprocess_and_vectorize_with_bert
 from ..Types.types import ScrapedNewsType, ScrapedNewsTypeWithStance
 from typing import List, Optional
