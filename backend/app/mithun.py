@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
+from collections import Counter
 import numpy as np
 import re
 import logging
@@ -66,9 +67,8 @@ def classify_news(headlines, links):
     
     return labels
 
-# Main execution
-if __name__ == "__main__":
-    statement = input("Enter the News Topic or Keyword: ")
+def m_main(statement):
+    # statement = input("Enter the News Topic or Keyword: ")
     result, links = baadkar_scrape(statement)
 
     if result:
@@ -91,8 +91,50 @@ if __name__ == "__main__":
 
         # Classify the fetched headlines
         predictions = classifier.predict(X)
+        
+        prediction_counts = Counter(predictions)
+        
+        # Determine majority classification
+        majority_class = "fake" if prediction_counts[1] > prediction_counts[0] else "real"
+        
         for headline, prediction in zip(result, predictions):
-            classification = "Fake News" if prediction == 1 else "Real News"
+            classification = "fake" if prediction == 1 else "real"
             print(f"{classification}: {headline}")
+            
+        print("Majority class: ", majority_class)
+        return majority_class
     else:
         print("No results found.")
+        return "neutral"
+
+# Main execution
+# if __name__ == "__main__":
+#     statement = input("Enter the News Topic or Keyword: ")
+#     result, links = baadkar_scrape(statement)
+
+#     if result:
+#         # Classify the fetched headlines
+#         labels = classify_news(result, links)
+        
+        
+#         # Vectorization
+#         vectorizer = TfidfVectorizer()
+#         X = vectorizer.fit_transform(result)  # Vectorize the headlines
+#         y = np.array(labels)  # Convert labels to numpy array
+
+#         # Train a simple classifier (Random Forest in this case)
+#         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#         classifier = RandomForestClassifier()
+#         classifier.fit(X_train, y_train)
+
+#         # Evaluate the classifier
+#         accuracy = classifier.score(X_test, y_test)
+#         print(f"Model Accuracy: {accuracy:.2f}")
+
+#         # Classify the fetched headlines
+#         predictions = classifier.predict(X)
+#         for headline, prediction in zip(result, predictions):
+#             classification = "Fake News" if prediction == 1 else "Real News"
+#             print(f"{classification}: {headline}")
+#     else:
+#         print("No results found.")
