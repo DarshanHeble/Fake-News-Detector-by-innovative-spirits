@@ -89,23 +89,14 @@
     border-radius: 12px;
     cursor: pointer;
 }
-/* .btndetect{
-    padding: 2px 10px;
-    background-color: black;
-    color: white;
-    font-size: 2rem;
-    border-radius: 12px;
-    cursor: pointer;
-} */
-
 .btndetect {
-  padding: 10px 20px; /* Adjusted padding for consistent size */
+  padding: 10px 20px; 
   background-color: black;
   color: white;
-  font-size: 1.5rem; /* Adjusted for better scaling on smaller screens */
+  font-size: 1.5rem; 
   border-radius: 12px;
   cursor: pointer;
-  margin-left: auto; /* Aligns the button to the right in a flex container */
+  margin-left: auto; 
 }
 
 
@@ -137,12 +128,12 @@
 }
 /* pop-up */
 .popup {
-    position: fixed; /* Fixed position to stay on screen */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+    background: rgba(0, 0, 0, 0.6); 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -155,7 +146,7 @@
     padding: 30px 40px;
     border-radius: 12px; /* Rounded corners */
     text-align: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Deep shadow for depth */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
     animation: slideIn 0.6s ease-in-out; /* Slide-in animation */
     max-width: 400px;
     width: 80%;
@@ -165,7 +156,7 @@
     margin: 0;
     font-size: 1.8rem;
     font-weight: bold;
-    background: -webkit-linear-gradient(45deg, #ff416c, #ff4b2b); /* Gradient text */
+    background: -webkit-linear-gradient(45deg, #ff416c, #ff4b2b); 
     background-clip: text;
     -webkit-text-fill-color: transparent; /* Apply gradient to text */
     margin-bottom: 15px;
@@ -213,18 +204,4 @@
       opacity: 1;
     }
   }
-  /* pop-up end */
-  
-  .dropZone {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .dropZone:hover {
-    border-color: #007bff;
-    background-color: #f1f1f1;
-  }
-   
   
