@@ -5,8 +5,8 @@ uvicorn
 
 # Model related libraries
 scikit-learn
-transformers
-torch
+# transformers
+# torch
 joblib
 nltk
 scipy
