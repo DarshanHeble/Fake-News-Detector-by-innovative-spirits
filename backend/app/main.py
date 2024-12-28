@@ -4,6 +4,10 @@ from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
 from .mithun import m_main
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Define lifecycle event handlers
 def on_startup():
@@ -17,13 +21,15 @@ def on_shutdown():
     print("Model Uninitialized")
 
 # Initialize FastAPI app
-# app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
+app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
 app = FastAPI()
+
+frontend_url = os.getenv("frontend_url", "http://localhost:5173")
 
 # CORS configuration (update the allowed origins as needed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://creative-pudding-ebee07.netlify.app"],  # Frontend URL
+    allow_origins=[frontend_url],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

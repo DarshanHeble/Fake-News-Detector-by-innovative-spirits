@@ -18,3 +18,4 @@ bs4
 urllib3
 typing
 requests
+dotenv

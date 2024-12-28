@@ -23,3 +23,5 @@ cspell.json
 *.njsproj
 *.sln
 *.sw?
+
+.env
