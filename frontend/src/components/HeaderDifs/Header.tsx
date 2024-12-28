@@ -1,7 +1,14 @@
 import style from "./Header.module.css";
 import GroupImg from "../../assets/Group.png";
+import { useState } from "react";
 
 export const Header = () => {
+  const [isTeamVisible, setIsTeamVisible] = useState(false);
+
+  // toggle the visibility of the team  list
+  const toggleTeamVisibility = () => {
+    setIsTeamVisible(!isTeamVisible);
+  };
   return (
     <div className={style.header}>
       <div className={style.logocon}>
@@ -101,10 +108,19 @@ export const Header = () => {
         </span>
       </div>
       <div className={style.TeamCon}>
-        <div className={style.groupBTN}>
+        <div className={style.groupBTN} onClick={toggleTeamVisibility}>
           <span className={style.groupBTNfont}>Our Team</span>
           <img className={style.groupImg} src={GroupImg} alt="GI" />
         </div>
+        {isTeamVisible && (
+          <ul className={style.teamList}>
+            <li>Aaditya Thantharate</li>
+            <li>Darshan Bele</li>
+            <li>Faizan Deshmukh</li>
+            <li>Mithun Baadkar</li>
+            <li>Rakshita Khodanpur</li>
+          </ul>
+        )}
       </div>
     </div>
   );
