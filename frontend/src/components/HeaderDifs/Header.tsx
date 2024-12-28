@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./Header.module.css";
 import GroupImg from "../../assets/Group.png";
 
