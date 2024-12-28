@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
+from .services.getNews import getRelatedNews
 from .mithun import m_main
 from dotenv import load_dotenv
 import os
@@ -59,8 +60,9 @@ async def verify_news(news: InputNewsType):
         
         if (approach == "mithun"):
             result = m_main(content)
+        relatedNews = await getRelatedNews(content)
 
-        return OutputNewsType(label=result)
+        return OutputNewsType(label=result, relatedNews=relatedNews)
     
     except HTTPException as http_exc:
         # Re-raise HTTPExceptions for FastAPI to handle

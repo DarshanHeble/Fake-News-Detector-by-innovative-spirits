@@ -1,12 +1,13 @@
 import requests
+import aiohttp
+import asyncio
 from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
 from ..Types.types import FetchedNewsType, ScrapedNewsType
 from .webScrap import extract_news_from_meta
 from typing import List
 from mimetypes import guess_type
 
-
-def fetchNewsFromGoogle(keywords: List[str]) -> list[FetchedNewsType]:
+async def fetch_news_from_google(keywords: List[str]) -> list[FetchedNewsType]:
     """
     Fetches news links from Google Custom Search API using given keywords.
 
@@ -23,32 +24,32 @@ def fetchNewsFromGoogle(keywords: List[str]) -> list[FetchedNewsType]:
         "key": GOOGLE_API_KEY,
         "num": 10  # maximum number of articles to be fetched from Google
     }
+    
+    async with aiohttp.ClientSession() as session:
+        try:
+            # Perform asynchronous GET request
+            async with session.get(BASE_SEARCH_URL, params=params) as response:
+                response.raise_for_status()  # Raise an error for bad requests
+                
+                # Check for quota exceeded in response JSON
+                response_data = await response.json()
+                if "error" in response_data:
+                    error_message = response_data["error"]["message"]
+                    if "quota" in error_message.lower():
+                        print("Google Custom Search API quota exceeded.")
+                        return []  # Return an empty list or handle as needed
 
-    try:
-        response = requests.get(BASE_SEARCH_URL, params=params)
-        response.raise_for_status()  # Raise an error for bad requests
+                # Process fetched articles
+                articles = response_data.get("items", [])
+                fetched_news = [FetchedNewsType(
+                    link=article.get("link"),
+                    domain=article.get("displayLink")
+                ) for article in articles]
 
-        # Check for quota exceeded in response JSON
-        response_data = response.json()
-        if "error" in response_data:
-            error_message = response_data["error"]["message"]
-            if "quota" in error_message.lower():
-                print("Google Custom Search API quota exceeded.")
-                return []  # Return an empty list or handle as needed
-
-        articles = response_data.get("items", [])
-        fetched_news = []
-        for article in articles:
-            news_item = FetchedNewsType(
-                link=article.get("link"),
-            )
-            fetched_news.append(news_item)
-
-        return fetched_news
-
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred while fetching news from Google: {e}")
-        return []
+                return fetched_news
+        except aiohttp.ClientError as e:
+            print(f"An error occurred while fetching news from Google: {e}")
+            return []
 
 
 def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsType]:

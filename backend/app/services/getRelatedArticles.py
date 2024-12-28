@@ -21,8 +21,9 @@ def get_related_articles_news_api(keywords: List[str]) -> List[FetchedNewsType]:
         "q": query,
         "language": "en",        
         "sortBy": "relevancy",   
-        # "domain": "cnn.com",   
-        "apiKey": NEWS_API_KEY
+        "domain": "reuters.com",   
+        "apiKey": NEWS_API_KEY,
+        "pageSize": 10
     }
     response = requests.get(BASE_NEWS_API_URL, params=params)
     # print(response.request.url) #see url for api request
