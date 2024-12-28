@@ -7,4 +7,10 @@ export type InputNewsType = {
 
 export type OutputNewsType = {
   label: "real" | "fake" | "neutral";
+  relatedNews?: FetchedNewsType[];
+};
+
+export type FetchedNewsType = {
+  link: string;
+  domain: string;
 };

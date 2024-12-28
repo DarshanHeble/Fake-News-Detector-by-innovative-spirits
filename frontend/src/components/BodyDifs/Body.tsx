@@ -1,6 +1,6 @@
 import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
-import { useState} from "react";
+import { useState } from "react";
 import verifyNews from "@services/verifyNews";
 import { OutputNewsType } from "@Types/types";
 
@@ -10,17 +10,18 @@ export const Body = () => {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-
   const handleDetect = async () => {
     if (!inputValue.trim()) {
       alert("Please provide text to analyze."); // Replace with a styled alert component if needed
       return;
     }
 
-
     setLoading(true); // Start loading
     try {
-      const response = await verifyNews({ category: "text", content: inputValue });
+      const response = await verifyNews({
+        category: "text",
+        content: inputValue,
+      });
       setResult(response);
       setShowPopup(true); // Show popup on successful result
     } catch (error) {
@@ -41,7 +42,9 @@ export const Body = () => {
       <div className={style.mainlettercon}>
         <span className={style.mainletterstyle}>Detect Fake News With</span>
         <br />
-        <span className={style.mainletterstyle}>Our Real-Time AI Fake News Detector</span>
+        <span className={style.mainletterstyle}>
+          Our Real-Time AI Fake News Detector
+        </span>
       </div>
 
       {/* Main Content */}
@@ -150,7 +153,10 @@ export const Body = () => {
           <div
             className={style.btndetect}
             onClick={!loading ? handleDetect : undefined} // Prevent double-click during loading
-            style={{ pointerEvents: loading ? "none" : "auto", opacity: loading ? 0.6 : 1 }}
+            style={{
+              pointerEvents: loading ? "none" : "auto",
+              opacity: loading ? 0.6 : 1,
+            }}
           >
             {loading ? "Loading..." : "Detect"}
           </div>
@@ -163,7 +169,9 @@ export const Body = () => {
           <div className={style.popupContent}>
             {result ? (
               <>
-                <h2 style={{ color: result.label === "fake" ? "red" : "green" }}>
+                <h2
+                  className={result.label === "fake" ? style.red : style.green}
+                >
                   Result: This article is {result.label}
                 </h2>
                 <p>
@@ -173,10 +181,14 @@ export const Body = () => {
                 </p>
               </>
             ) : (
-
-              <h2 style={{ color: "red" }}>Error verifying news. Please try again.</h2>
+              <h2 style={{ color: "red" }}>
+                Error verifying news. Please try again.
+              </h2>
             )}
-            <button className={style.closeBtn} onClick={() => setShowPopup(false)}>
+            <button
+              className={style.closeBtn}
+              onClick={() => setShowPopup(false)}
+            >
               Close
             </button>
           </div>
