@@ -25,6 +25,7 @@
 }
 
 .mainCon {
+  padding-inline: 15px;
   position: absolute;
   width: 55rem;
   height: 20rem;
@@ -50,6 +51,7 @@
   width: 100%;
   height: 60%;
   padding: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   background-color: rgb(255, 255, 255);
@@ -73,6 +75,10 @@
   height: 2.5rem;
   font-size: 1.5rem;
   border: none;
+}
+
+.inputbox:focus-visible {
+  outline-color: transparent;
 }
 .btncon {
   width: 100%;
