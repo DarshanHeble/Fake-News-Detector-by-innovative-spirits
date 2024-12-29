@@ -8,8 +8,7 @@ from .mithun import m_main
 from dotenv import load_dotenv
 import os
 
-import nltk
-nltk.download("stopwords")
+os.environ["NLTK_DATA"] = "./stopwords"
 
 load_dotenv()
 

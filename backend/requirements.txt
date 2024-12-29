@@ -13,6 +13,7 @@ scipy
 numpy
 
 # Other libraries
+nltk
 rake-nltk
 bs4
 urllib3
