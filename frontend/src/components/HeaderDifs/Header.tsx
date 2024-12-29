@@ -114,11 +114,11 @@ export const Header = () => {
         </div>
         {isTeamVisible && (
           <ul className={style.teamList}>
-            <li>Aaditya Thantharate</li>
-            <li>Darshan Heble</li>
-            <li>Faizan Deshmukh</li>
-            <li>Mithun Baadkar</li>
-            <li>Rakshita Khodanpur</li>
+            <li>Aaditya Thantharate<br/><b>aadityathantharate93@gmail.com</b></li>
+            <li>Darshan Heble<br/><b>darshanheble@gmail.com</b></li>
+            <li>Faizan Deshmukh<br/><b></b></li>
+            <li>Mithun Baadkar<br/><b></b></li>
+            <li>Rakshita Khodanpur<br/><b></b></li>
           </ul>
         )}
       </div>
