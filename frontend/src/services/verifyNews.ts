@@ -16,7 +16,7 @@ const verifyNews = async (
     // Make a POST request to the /verifyNews endpoint with the provided newsData
     const response = await api.post<OutputNewsType>("/verify-news", newsData);
     console.log(response);
-    
+
     // Return the data received from the backend
     return response.data;
   } catch (error) {
