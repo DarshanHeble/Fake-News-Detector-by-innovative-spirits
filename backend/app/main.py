@@ -8,6 +8,9 @@ from .mithun import m_main
 from dotenv import load_dotenv
 import os
 
+import nltk
+nltk.download("stopwords")
+
 load_dotenv()
 
 # Define lifecycle event handlers
