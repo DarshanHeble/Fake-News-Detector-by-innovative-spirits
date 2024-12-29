@@ -1,5 +1,7 @@
 # Backend related libraries
 fastapi
+aiohttp
+asyncio
 pydantic
 uvicorn
 
