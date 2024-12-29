@@ -1,4 +1,4 @@
-from .extractKeywords import extract_keywords
+# from .extractKeywords import extract_keywords
 from .fetchNewsFromGoogle import fetch_news_from_google
 
 async def getRelatedNews(content):
