@@ -115,7 +115,7 @@ export const Header = () => {
         {isTeamVisible && (
           <ul className={style.teamList}>
             <li>Aaditya Thantharate</li>
-            <li>Darshan heble</li>
+            <li>Darshan Heble</li>
             <li>Faizan Deshmukh</li>
             <li>Mithun Baadkar</li>
             <li>Rakshita Khodanpur</li>

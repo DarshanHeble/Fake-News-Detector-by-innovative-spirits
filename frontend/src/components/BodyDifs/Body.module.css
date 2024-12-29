@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  scroll-behavior: auto;
 }
 .fndb {
   position: absolute;

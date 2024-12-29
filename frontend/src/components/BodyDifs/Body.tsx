@@ -9,6 +9,7 @@ export const Body = () => {
   const [result, setResult] = useState<false | OutputNewsType>(false);
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  // const [data, setData] = useState<{ source: string; link: string; result: string }[]>([]); // State for table data
 
   const handleDetect = async () => {
     if (!inputValue.trim()) {
@@ -194,6 +195,33 @@ export const Body = () => {
           </div>
         </div>
       )}
+      {/* Table Section */}
+
+      {/* <div className="tableContainer">
+            {data.length > 0 ? (
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Article</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.source}</td>
+                                <td><a href={item.link} target="_blank" rel="noreferrer">Click here</a></td>
+                                <td><span className={item.result === "fake" ? "red" : "green"}>{item.result}</span></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p>No data available.</p>
+            )}
+        </div> */}
+      {/* End of Table Section */}
     </div>
   );
 };
