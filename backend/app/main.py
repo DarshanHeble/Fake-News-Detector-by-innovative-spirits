@@ -8,8 +8,6 @@ from .mithun import m_main
 from dotenv import load_dotenv
 import os
 
-os.environ["NLTK_DATA"] = "./stopwords"
-
 load_dotenv()
 
 # Define lifecycle event handlers
