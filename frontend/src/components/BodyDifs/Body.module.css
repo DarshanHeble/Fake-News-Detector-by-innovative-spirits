@@ -150,7 +150,9 @@
   z-index: 1000; /* Ensure it's above other elements */
   animation: fadeIn 0.5s ease-in-out; /* Fade-in animation */
 }
-
+.neutral {/* Neutral color scheme */
+  color: gray;
+}
 .popupContent {
   background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient */
   padding: 30px 40px;

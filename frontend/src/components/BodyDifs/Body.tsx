@@ -11,12 +11,29 @@ export const Body = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [data, setData] = useState<{ source: string; link: string; result: string }[]>([]); // State for table data
 
-  const handleDetect = async () => {
-    if (!inputValue.trim()) {
-      alert("Please provide text to analyze."); // Replace with a styled alert component if needed
-      return;
-    }
+  const isValidInput = (input: string): boolean => {
+    const urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i' // fragment locator
+    );
+    return !!input.trim() && (urlPattern.test(input) || input.length > 0);
+  };
 
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (isValidInput(value)) {
+      setInputValue(value);
+    } else {
+      alert("Please enter a valid text or URL.");
+    }
+  };
+
+  const handleDetect = async () => {
     setLoading(true); // Start loading
     try {
       const response = await verifyNews({
@@ -25,6 +42,16 @@ export const Body = () => {
       });
       setResult(response);
       setShowPopup(true); // Show popup on successful result
+
+      
+      // Update data state with suggestions
+      if (response && 'relatedNews' in response) {
+        setData(response.relatedNews.map((suggestion: any) => ({
+          source: suggestion.source,
+          link: suggestion.link,
+          result: suggestion.result,
+        })));
+      }
     } catch (error) {
       console.error("Error verifying news:", error);
       setResult(false);
@@ -148,7 +175,7 @@ export const Body = () => {
                 type="text"
                 placeholder="Type text or URL"
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)} // Update state on input change
+                onChange={handleInputChange} // Use the new handler
               />
             </div>
 
@@ -172,13 +199,21 @@ export const Body = () => {
               {result ? (
                 <>
                   <h2
-                    className={result.label === "fake" ? style.red : style.green}
+                    className={
+                      result.label === "fake"
+                        ? style.red
+                        : result.label === "neutral"
+                        ? style.neutral
+                        : style.green
+                    }
                   >
                     Result: This article is {result.label}
                   </h2>
                   <p>
                     {result.label === "fake"
                       ? "Be cautious! This news article might be misleading."
+                      : result.label === "neutral"
+                      ? "This article is neutral. Please review further."
                       : "This article seems genuine. Stay informed!"}
                   </p>
                 </>
@@ -201,26 +236,26 @@ export const Body = () => {
       {/* Table Section */}
 
       <div className={style.tableContainer}>
-        <table className={style.table}>
-          <thead>
-            <tr>
-              <th>Link</th>
-              <th>Domain</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index}>
-                <td>
-                  <a href={row.link} target='_blank' >
-                    {row.link}
-                  </a>
-                  <td>{row.source}</td>
-                </td>
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <th>Link</th>
+                <th>Domain</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((row, index) => (
+                <tr key={index}>
+                  <td>
+                    <a href={row.link} target='_blank' rel='noreferrer'>
+                      {row.link}
+                    </a>
+                  </td>
+                  <td>{row.source}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
       </div>
       {/* End of Table Section */}
     </div>
