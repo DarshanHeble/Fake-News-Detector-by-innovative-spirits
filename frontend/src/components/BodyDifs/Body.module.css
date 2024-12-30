@@ -6,6 +6,7 @@
   justify-content: center;
   position: relative;
   scroll-behavior: auto;
+  overflow: hidden;
 }
 .fndb {
   position: absolute;
@@ -34,6 +35,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  overflow: hidden;
 }
 .mainlettercon {
   position: absolute;
@@ -195,6 +197,91 @@
 .popupContent button:hover {
   background: #ff4b2b;
   transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/*Table Section   */
+/* Table Styles */
+/* Table Styles */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  /* background-color: #4CAF50; */
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.table th,
+.table td {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.table a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.table a:hover {
+  text-decoration: underline;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
 }
 
 /* Animations */

@@ -1,6 +1,5 @@
-// /GitHub/Fake-News-Detection-testing/frontend/src/components/TableDifs/Result.tsx
-import React from 'react';
 import style from './Result.module.css';
+import React from 'react';
 
 interface TableRow {
   source: string;
@@ -17,38 +16,28 @@ export class ResultsTable extends React.Component<ResultsTableProps> {
     const { data } = this.props;
 
     return (
-      <div className={style.tableContainer}>
-        {data.length > 0 ? (
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <th>Source</th>
-                <th>Article</th>
-                <th>Result</th>
+      <table className='tableContainer'>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Link</th>
+            <th>Result</th>
+          </tr>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={index}>
+                <td>{row.source}</td>
+                <td>
+                  <a href={row.link} target='_blank' rel='noreferrer'>
+                    {row.link}
+                  </a>
+                </td>
+                <td>{row.result}</td>
               </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.source}</td>
-                  <td>
-                    <a href={item.link} target="_blank" rel="noreferrer">
-                      Click here
-                    </a>
-                  </td>
-                  <td>
-                    <span className={item.result === "fake" ? style.red : style.green}>
-                      {item.result}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No data available.</p>
-        )}
-      </div>
+            ))}
+          </tbody>
+        </thead>
+      </table>
     );
   }
 }
