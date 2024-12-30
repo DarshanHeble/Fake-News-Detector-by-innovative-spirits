@@ -5,6 +5,7 @@ from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
 from .services.getNews import getRelatedNews
 from .mithun import m_main
+from .AD import ad_main
 from dotenv import load_dotenv
 import os
 
@@ -55,11 +56,20 @@ async def verify_news(news: InputNewsType):
                 raise HTTPException(status_code=400, detail="Invalid or inaccessible URL.")
         # ----------------------------------
         
-        approach = "mithun"
-        result = ""
+        approaches = {
+            "mithun": m_main,  # Function for "mithun" approach
+            "AD": ad_main      # Function for "AD" approach
+        }
         
-        if (approach == "mithun"):
-            result = m_main(content)
+        approach = "AD"     # Add the desired approach
+        
+        # Get the corresponding function based on the approach
+        result = ""
+        if approach in approaches:
+            result = await approaches[approach](content)  # Call the respective function
+        else:
+            raise ValueError(f"Unknown approach: {approach}")
+        
         relatedNews = await getRelatedNews(content)
 
         return OutputNewsType(label=result, relatedNews=relatedNews)

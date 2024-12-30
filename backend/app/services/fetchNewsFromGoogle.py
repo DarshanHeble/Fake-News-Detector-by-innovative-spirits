@@ -1,7 +1,7 @@
 import requests
 import aiohttp
 import asyncio
-from aiohttp import ClientResponseError
+from aiohttp import ClientResponseError, ClientSession
 from ..constants import CSE_ID, GOOGLE_API_KEY, BASE_SEARCH_URL
 from ..Types.types import FetchedNewsType, ScrapedNewsType
 from .webScrap import extract_news_from_meta
@@ -74,10 +74,9 @@ async def fetch_news_from_google(
     return []  # Default return for failures
 
 
-
-def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsType]:
+async def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsType]:
     """
-    Fetches news articles using Google Custom Search and scrapes metadata.
+    Fetches news articles using Google Custom Search and scrapes metadata concurrently.
 
     Args:
         keywords: A list of keywords to form the search query.
@@ -86,34 +85,45 @@ def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsTy
         A list of ScrapedNewsType containing titles and descriptions or an empty list if quota is exhausted.
     """
     print("Fetching news from Google...")
-    articles = fetchNewsFromGoogle(keywords)
+    articles = await fetch_news_from_google(keywords)
     print(f"Fetched {len(articles)} articles from Google.")
 
     if not articles:
         print("No articles fetched. Quota might be exhausted or no results found.")
         return []
 
-    scraped_articles: list[ScrapedNewsType] = []
-    for index, article in enumerate(articles, start=1):
-        print(f"Scraping article {index}/{len(articles)}: {article.link}")
-
-        # Skip unsupported file types (e.g., PDF)
-        mime_type, _ = guess_type(article.link)
-        if mime_type and not mime_type.startswith("text/html"):
-            print(f"Skipping unsupported format: {article.link} (MIME type: {mime_type})")
-            continue
-
-        try:
-            content = extract_news_from_meta(article.link)
-            if content:
-                news = ScrapedNewsType(
-                    title=content.title,
-                    description=content.description
-                )
-                scraped_articles.append(news)
-            else:
-                print(f"Failed to extract content for: {article.link}")
-        except Exception as e:
-            print(f"Error scraping article: {article.link} - {e}")
-
+    async with ClientSession() as session:
+        tasks = [
+            scrape_article(article.link, session)
+            for article in articles
+        ]
+        results = await asyncio.gather(*tasks)
+    
+    # Filter out None results
+    scraped_articles = [result for result in results if result is not None]
+    print(f"Scraped {len(scraped_articles)} articles successfully.")
     return scraped_articles
+
+async def scrape_article(link: str, session: ClientSession) -> Optional[ScrapedNewsType]:
+    """
+    Asynchronously scrapes a single article for metadata.
+
+    Args:
+        link: The article URL.
+        session: The shared aiohttp session for making requests.
+
+    Returns:
+        ScrapedNewsType object or None if scraping fails or format unsupported.
+    """
+    mime_type, _ = guess_type(link)
+    if mime_type and not mime_type.startswith("text/html"):
+        print(f"Skipping unsupported format: {link} (MIME type: {mime_type})")
+        return None
+
+    try:
+        content = extract_news_from_meta(link)
+        if content:
+            return ScrapedNewsType(title=content.title, description=content.description)
+    except Exception as e:
+        print(f"Error scraping article: {link} - {e}")
+    return None
