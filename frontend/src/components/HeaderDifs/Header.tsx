@@ -116,9 +116,9 @@ export const Header = () => {
           <ul className={style.teamList}>
             <li>Aaditya Thantharate<br/><b>aadityathantharate93@gmail.com</b></li>
             <li>Darshan Heble<br/><b>darshanheble@gmail.com</b></li>
-            <li>Faizan Deshmukh<br/><b></b></li>
+            <li>Faizan Deshmukh<br/><b>deshmukhfaizan13@gmail.com</b></li>
+            <li>Rakshita Khodanpur<br/><b>Rakshithakhodanpur@gmail.com</b></li>
             <li>Mithun Baadkar<br/><b></b></li>
-            <li>Rakshita Khodanpur<br/><b></b></li>
           </ul>
         )}
       </div>
