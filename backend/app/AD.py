@@ -5,7 +5,7 @@ from .services.getRelatedArticles import fetch_and_scrape_news_from_newsApi
 from .services.extractKeywords import extract_keywords
 from fastapi import HTTPException
 
-def ad_main(content):
+async def ad_main(content):
     # Extract keywords from content (User Inputted News)
     try:
         keywords = extract_keywords(content)
@@ -27,7 +27,7 @@ def ad_main(content):
     if not articles or len(articles) < 3:
         try:
             print("Not enough articles found using NewsAPI.")
-            additional_articles = fetch_and_scrape_news_from_google(keywords)
+            additional_articles = await fetch_and_scrape_news_from_google(keywords)
             if additional_articles:
                 articles.extend(additional_articles)
         except Exception as e:
