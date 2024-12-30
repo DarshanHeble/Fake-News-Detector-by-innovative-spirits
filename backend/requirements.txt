@@ -22,4 +22,3 @@ urllib3
 typing
 requests
 python-dotenv
-mimetypes
