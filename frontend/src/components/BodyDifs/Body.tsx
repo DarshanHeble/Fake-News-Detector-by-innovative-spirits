@@ -251,6 +251,7 @@ export const Body = () => {
         <table className={style.table}>
           <thead>
             <tr>
+              <th>Sr.no</th>
               <th>Link</th>
               <th>Domain</th>
             </tr>
@@ -258,6 +259,7 @@ export const Body = () => {
           <tbody>
             {data.map((row, index) => (
               <tr key={index}>
+                <td>{index + 1}</td> {/* Use index as key */}
                 <td>
                   <a href={row.link} target="_blank" rel="noreferrer">
                     {row.link}
