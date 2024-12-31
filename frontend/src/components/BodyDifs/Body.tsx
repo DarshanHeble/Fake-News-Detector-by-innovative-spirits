@@ -2,27 +2,27 @@ import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
 import { useState } from "react";
 import verifyNews from "@services/verifyNews";
-import { OutputNewsType } from "@Types/types";
+import { FetchedNewsType, OutputNewsType } from "@Types/types";
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
   const [result, setResult] = useState<false | OutputNewsType>(false);
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [data, setData] = useState<{ source: string; link: string; result: string }[]>([]); // State for table data
+  const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
 
   const isValidInput = (input: string): boolean => {
     const urlPattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$', 'i' // fragment locator
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i" // fragment locator
     );
     return !!input.trim() && (urlPattern.test(input) || input.length > 0);
   };
-
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -43,14 +43,14 @@ export const Body = () => {
       setResult(response);
       setShowPopup(true); // Show popup on successful result
 
-      
       // Update data state with suggestions
-      if (response && 'relatedNews' in response) {
-        setData(response.relatedNews.map((suggestion: any) => ({
-          source: suggestion.source,
-          link: suggestion.link,
-          result: suggestion.result,
-        })));
+      if (response && response.relatedNews) {
+        setData(
+          response.relatedNews.map((suggestion: FetchedNewsType) => ({
+            link: suggestion.link,
+            domain: suggestion.domain,
+          }))
+        );
       }
     } catch (error) {
       console.error("Error verifying news:", error);
@@ -231,31 +231,30 @@ export const Body = () => {
             </div>
           </div>
         )}
-
       </div>
       {/* Table Section */}
 
       <div className={style.tableContainer}>
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <th>Link</th>
-                <th>Domain</th>
+        <table className={style.table}>
+          <thead>
+            <tr>
+              <th>Link</th>
+              <th>Domain</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={index}>
+                <td>
+                  <a href={row.link} target="_blank" rel="noreferrer">
+                    {row.link}
+                  </a>
+                </td>
+                <td>{row.domain}</td>
               </tr>
-            </thead>
-            <tbody>
-              {data.map((row, index) => (
-                <tr key={index}>
-                  <td>
-                    <a href={row.link} target='_blank' rel='noreferrer'>
-                      {row.link}
-                    </a>
-                  </td>
-                  <td>{row.source}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
       </div>
       {/* End of Table Section */}
     </div>

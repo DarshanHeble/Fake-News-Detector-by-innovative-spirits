@@ -67,7 +67,7 @@ def classify_news(headlines, links):
     
     return labels
 
-def m_main(statement):
+async def m_main(statement):
     # statement = input("Enter the News Topic or Keyword: ")
     result, links = baadkar_scrape(statement)
 

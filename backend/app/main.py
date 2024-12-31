@@ -61,7 +61,7 @@ async def verify_news(news: InputNewsType):
             "AD": ad_main      # Function for "AD" approach
         }
         
-        approach = "AD"     # Add the desired approach
+        approach = "mithun"     # Add the desired approach
         
         # Get the corresponding function based on the approach
         result = ""
