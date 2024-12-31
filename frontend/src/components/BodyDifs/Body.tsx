@@ -24,22 +24,35 @@ export const Body = () => {
     return !!input.trim() && (urlPattern.test(input) || input.length > 0);
   };
 
+ 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (isValidInput(value)) {
+    if (value.trim() === "" || isValidInput(value)) {
       setInputValue(value);
     } else {
       alert("Please enter a valid text or URL.");
     }
   };
 
+  // const handleDetect = async () => {
+  //   setLoading(true); // Start loading
+  //   try {
+  //     const response = await verifyNews({
+  //       category: "text",
+  //       content: inputValue,
+  //     });
+  
   const handleDetect = async () => {
-    setLoading(true); // Start loading
-    try {
-      const response = await verifyNews({
-        category: "text",
-        content: inputValue,
-      });
+        setLoading(true); // Start loading
+    if (!inputValue.trim()) {
+      alert("Please provide text to analyze."); // Replace with a styled alert component if needed
+      return;
+    }try {
+          const response = await verifyNews({
+             category: "text",//"isURL": isValidInput(inputValue),
+            content: inputValue,
+          });
+
       setResult(response);
       setShowPopup(true); // Show popup on successful result
 
