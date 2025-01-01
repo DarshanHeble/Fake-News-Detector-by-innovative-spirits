@@ -1,30 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
-from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
 from .services.fetchNewsFromGoogle import fetch_news_from_google
 from .mithun import m_main
 from dotenv import load_dotenv
 import os
 
+# Load environment variables
 load_dotenv()
 
-# Define lifecycle event handlers
-def on_startup():
-    global model_handler
-    model_handler = ModelHandler()
-    print("Model Initialized")
-    
-def on_shutdown():
-    global model_handler
-    model_handler = None
-    print("Model Uninitialized")
-
 # Initialize FastAPI app
-app = FastAPI(on_startup=[on_startup], on_shutdown=[on_shutdown])
 app = FastAPI()
 
+# Get the frontend URL from the environment, defaulting to localhost if not set
 frontend_url = os.getenv("frontend_url", "http://localhost:5173")
 
 # CORS configuration (update the allowed origins as needed)
@@ -56,9 +45,9 @@ async def verify_news(news: InputNewsType):
         # ----------------------------------
         
         result = await m_main(content)
-        
         relatedNews = await fetch_news_from_google(content)
 
+        # Return the result (fake or real) and some related news
         return OutputNewsType(label=result, relatedNews=relatedNews)
     
     except HTTPException as http_exc:
@@ -70,7 +59,7 @@ async def verify_news(news: InputNewsType):
         raise HTTPException(status_code=500, detail="An unexpected error occurred while processing the request.")
 
 
-# Checking connection status manually
+# Simple endpoint to check if the backend is up and running
 @app.get("/connection-status")
 async def connection_status():
     return {"status": "true"}

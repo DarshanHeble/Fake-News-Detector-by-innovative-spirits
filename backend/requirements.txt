@@ -7,17 +7,19 @@ uvicorn
 
 # Model related libraries
 scikit-learn
-# transformers
-# torch
-joblib
 nltk
-scipy
 numpy
 
 # Other libraries
-rake-nltk
 bs4
-urllib3
 typing
 requests
 python-dotenv
+
+
+# rake-nltk
+# urllib3
+# transformers
+# torch
+# joblib
+# scipy
