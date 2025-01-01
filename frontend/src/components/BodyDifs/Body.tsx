@@ -257,7 +257,8 @@ export const Body = () => {
             <tbody>
               {data.map((row, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td> {/* Use index as key */}
+                  <td>{index + 1}</td>
+                  {/* Use index as key */}
                   <td>
                     <a href={row.link} target="_blank" rel="noreferrer">
                       {row.link}
