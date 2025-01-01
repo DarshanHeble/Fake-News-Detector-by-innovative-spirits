@@ -9,6 +9,7 @@ function App() {
   getServerStatus().then((responce) => {
     console.log("Connection Status: " + responce);
   });
+
   return (
     <>
       <Header />

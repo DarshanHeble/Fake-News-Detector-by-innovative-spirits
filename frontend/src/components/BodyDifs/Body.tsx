@@ -24,7 +24,6 @@ export const Body = () => {
     return !!input.trim() && (urlPattern.test(input) || input.length > 0);
   };
 
- 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.trim() === "" || isValidInput(value)) {
@@ -41,17 +40,18 @@ export const Body = () => {
   //       category: "text",
   //       content: inputValue,
   //     });
-  
+
   const handleDetect = async () => {
-        setLoading(true); // Start loading
+    setLoading(true); // Start loading
     if (!inputValue.trim()) {
       alert("Please provide text to analyze."); // Replace with a styled alert component if needed
       return;
-    }try {
-          const response = await verifyNews({
-             category: "text",//"isURL": isValidInput(inputValue),
-            content: inputValue,
-          });
+    }
+    try {
+      const response = await verifyNews({
+        category: "text", //"isURL": isValidInput(inputValue),
+        content: inputValue,
+      });
 
       setResult(response);
       setShowPopup(true); // Show popup on successful result
@@ -246,31 +246,32 @@ export const Body = () => {
         )}
       </div>
       {/* Table Section */}
-
-      <div className={style.tableContainer}>
-        <table className={style.table}>
-          <thead>
-            <tr>
-              <th>Sr.no</th>
-              <th>Link</th>
-              <th>Domain</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td> {/* Use index as key */}
-                <td>
-                  <a href={row.link} target="_blank" rel="noreferrer">
-                    {row.link}
-                  </a>
-                </td>
-                <td>{row.domain}</td>
+      {data.length > 0 && (
+        <div className={style.tableContainer}>
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <th>Sr.no</th>
+                <th>Link</th>
+                <th>Domain</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {data.map((row, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td> {/* Use index as key */}
+                  <td>
+                    <a href={row.link} target="_blank" rel="noreferrer">
+                      {row.link}
+                    </a>
+                  </td>
+                  <td>{row.domain}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {/* End of Table Section */}
     </div>
   );
