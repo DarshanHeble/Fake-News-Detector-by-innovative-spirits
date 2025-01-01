@@ -3,9 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .model.model import ModelHandler
 from .services.webScrap import extract_news_from_meta
-from .services.getNews import getRelatedNews
+from .services.fetchNewsFromGoogle import fetch_news_from_google
 from .mithun import m_main
-# from .AD import ad_main
 from dotenv import load_dotenv
 import os
 
@@ -56,21 +55,9 @@ async def verify_news(news: InputNewsType):
                 raise HTTPException(status_code=400, detail="Invalid or inaccessible URL.")
         # ----------------------------------
         
-        approaches = {
-            "mithun": m_main,  # Function for "mithun" approach
-            # "AD": ad_main      # Function for "AD" approach
-        }
+        result = await m_main(content)
         
-        approach = "mithun"     # Add the desired approach
-        
-        # Get the corresponding function based on the approach
-        result = ""
-        if approach in approaches:
-            result = await approaches[approach](content)  # Call the respective function
-        else:
-            raise ValueError(f"Unknown approach: {approach}")
-        
-        relatedNews = await getRelatedNews(content)
+        relatedNews = await fetch_news_from_google(content)
 
         return OutputNewsType(label=result, relatedNews=relatedNews)
     
