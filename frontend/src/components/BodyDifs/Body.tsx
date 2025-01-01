@@ -33,25 +33,23 @@ export const Body = () => {
     }
   };
 
-  // const handleDetect = async () => {
-  //   setLoading(true); // Start loading
-  //   try {
-  //     const response = await verifyNews({
-  //       category: "text",
-  //       content: inputValue,
-  //     });
-
   const handleDetect = async () => {
     setLoading(true); // Start loading
+
     if (!inputValue.trim()) {
       alert("Please provide text to analyze."); // Replace with a styled alert component if needed
       return;
     }
+
+    const isURL = isValidInput(inputValue);
+
     try {
       const response = await verifyNews({
-        category: "text", //"isURL": isValidInput(inputValue),
+        category: isURL ? "url" : "text",
         content: inputValue,
       });
+
+      console.log(isURL);
 
       setResult(response);
       setShowPopup(true); // Show popup on successful result
