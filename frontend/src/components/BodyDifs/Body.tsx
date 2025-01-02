@@ -12,6 +12,8 @@ export const Body = () => {
   const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
 
   const isValidInput = (input: string): boolean => {
+    if (!input.trim()) return false; // Reject empty input
+
     const urlPattern = new RegExp(
       "^(https?:\\/\\/)?" + // protocol
         "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
@@ -19,17 +21,19 @@ export const Body = () => {
         "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
         "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
         "(\\#[-a-z\\d_]*)?$",
-      "i" // fragment locator
+      "i"
     );
-    return !!input.trim() && (urlPattern.test(input) || input.length > 0);
+
+    // Return true if valid URL or non-empty text
+    return urlPattern.test(input) || input.trim().length > 0;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value.trim() === "" || isValidInput(value)) {
-      setInputValue(value);
-    } else {
-      alert("Please enter a valid text or URL.");
+    const value = e.target.value.trim(); // Trim the value for better validation
+    setInputValue(value);
+
+    if (value && !isValidInput(value)) {
+      alert("Please enter a valid URL or non-empty text.");
     }
   };
 
@@ -41,7 +45,7 @@ export const Body = () => {
       return;
     }
 
-    const isURL = isValidInput(inputValue);
+    const isURL = isValidInput(inputValue) && inputValue.startsWith("http");
 
     try {
       const response = await verifyNews({
