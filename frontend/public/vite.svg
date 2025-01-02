@@ -1,1 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+<svg
+                viewBox="0 0 167 195"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M84 50L62.3494 37.5L62.3494 12.5L84 1.62913e-06L105.651 12.5L105.651 37.5L84 50Z"
+                  fill="black"
+                />
+                <path
+                  d="M43.7858 75.7877L22.0795 88.1909L0.484937 75.5944L0.596567 50.5946L22.3028 38.1914L43.8974 50.788L43.7858 75.7877Z"
+                  fill="black"
+                />
+                <path
+                  d="M122.544 75.713L122.493 50.7131L144.118 38.1692L165.794 50.6252L165.845 75.6251L144.22 88.1691L122.544 75.713Z"
+                  fill="black"
+                />
+                <path
+                  d="M43.8561 146.04L22.454 158.96L0.563088 146.886L0.0743392 121.891L21.4765 108.97L43.3673 121.044L43.8561 146.04Z"
+                  fill="black"
+                />
+                <path
+                  d="M123.395 120.711L144.985 108.106L166.696 120.501L166.817 145.501L145.227 158.106L123.516 145.711L123.395 120.711Z"
+                  fill="black"
+                />
+                <path
+                  d="M83.9999 67.0549L110.008 82.0073L110.063 112.007L84.1097 127.055L58.1016 112.102L58.0467 82.1024L83.9999 67.0549Z"
+                  fill="black"
+                />
+                <path
+                  d="M84.2395 144.12L105.83 156.724L105.71 181.723L83.9997 194.119L62.4093 181.516L62.5291 156.516L84.2395 144.12Z"
+                  fill="black"
+                />
+                <path
+                  d="M144 63L145 133"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 26L144 63"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 26L22 63"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 169L145 134"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 97L22 63"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 97L143 63"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 97V168"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M22 63V134"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M84 169L22 135"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
