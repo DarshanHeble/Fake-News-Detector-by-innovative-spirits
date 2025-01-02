@@ -37,7 +37,8 @@ export const Body = () => {
     }
   };
 
-  const handleDetect = async () => {
+  const handleDetect = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true); // Start loading
 
     if (!inputValue.trim()) {
@@ -93,7 +94,7 @@ export const Body = () => {
 
         {/* Main Content */}
         <div className={style.mainCon}>
-          <div className={style.processCon}>
+          <form className={style.processCon} onSubmit={handleDetect}>
             {/* Input Section */}
             <div className={style.textBox}>
               <svg
@@ -204,7 +205,7 @@ export const Body = () => {
             >
               {loading ? "Loading..." : "Detect"}
             </div>
-          </div>
+          </form>
         </div>
 
         {/* Popup Section */}
