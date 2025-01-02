@@ -1,6 +1,7 @@
 import style from "./Header.module.css";
 import GroupImg from "../../assets/Group.png";
 import { useState } from "react";
+import { TeamMembers } from "@Types/types";
 
 export const Header = () => {
   const [isTeamVisible, setIsTeamVisible] = useState(false);
@@ -9,6 +10,35 @@ export const Header = () => {
   const toggleTeamVisibility = () => {
     setIsTeamVisible(!isTeamVisible);
   };
+
+  const teamMembers: TeamMembers[] = [
+    {
+      name: "Aaditya Thantharate",
+      email: "aadityathantharate93@gmail.com",
+      linkedinUrl: "https://www.linkedin.com/in/aadityath22/",
+    },
+    {
+      name: "Darshan Heble",
+      email: "darshanheble@gmail.com",
+      linkedinUrl: "https://www.linkedin.com/in/darshanheble/",
+    },
+    {
+      name: "Faizan Deshmukh",
+      email: "deshmukhfaizan13@gmail.com",
+      linkedinUrl: "https://www.linkedin.com/in/faizandeashmkh13/",
+    },
+    {
+      name: "Rakshita Khodanpur",
+      email: "Rakshithakhodanpur@gmail.com",
+      linkedinUrl: "https://www.linkedin.com/in/rakshita-khodanpur/",
+    },
+    {
+      name: "Mithun Baadkar",
+      email: "mithunbaadkar@gmail.com",
+      linkedinUrl: "https://www.linkedin.com/in/mithun-baadkar-3b669523b/",
+    },
+  ];
+
   return (
     <div className={style.header}>
       <div className={style.logocon}>
@@ -114,31 +144,19 @@ export const Header = () => {
         </div>
         {isTeamVisible && (
           <ul className={style.teamList}>
-            <li>
-              Aaditya Thantharate
-              <br />
-              <b>aadityathantharate93@gmail.com</b>
-            </li>
-            <li>
-              Darshan Heble
-              <br />
-              <b>darshanheble@gmail.com</b>
-            </li>
-            <li>
-              Faizan Deshmukh
-              <br />
-              <b>deshmukhfaizan13@gmail.com</b>
-            </li>
-            <li>
-              Rakshita Khodanpur
-              <br />
-              <b>Rakshithakhodanpur@gmail.com</b>
-            </li>
-            <li>
-              Mithun Baadkar
-              <br />
-              <b>mithunbaadkar@gmail.com</b>
-            </li>
+            {teamMembers.map((member) => (
+              <a
+                href={member.linkedinUrl}
+                target="_blank"
+                style={{ textDecoration: "none" }}
+              >
+                <li>
+                  {member.name}
+                  <br />
+                  <b>{member.email}</b>
+                </li>
+              </a>
+            ))}
           </ul>
         )}
       </div>

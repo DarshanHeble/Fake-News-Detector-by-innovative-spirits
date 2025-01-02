@@ -14,3 +14,9 @@ export type FetchedNewsType = {
   link: string;
   domain: string;
 };
+
+export type TeamMembers = {
+  name: string;
+  email: string;
+  linkedinUrl: string;
+};
