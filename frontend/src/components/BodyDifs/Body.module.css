@@ -1,6 +1,6 @@
 .mainwork {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +150,8 @@
   z-index: 1000; /* Ensure it's above other elements */
   animation: fadeIn 0.5s ease-in-out; /* Fade-in animation */
 }
-.neutral {/* Neutral color scheme */
+.neutral {
+  /* Neutral color scheme */
   color: gray;
 }
 .popupContent {
@@ -275,7 +276,7 @@
 }
 
 .table a {
-  color: #4CAF50;
+  color: #4caf50;
   text-decoration: none;
 }
 
