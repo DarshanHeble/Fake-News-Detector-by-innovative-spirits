@@ -1,6 +1,6 @@
 import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import verifyNews from "@services/verifyNews";
 import { FetchedNewsType, OutputNewsType } from "@Types/types";
 
@@ -10,6 +10,8 @@ export const Body = () => {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const isValidInput = (input: string): boolean => {
     if (!input.trim()) return false; // Reject empty input
@@ -29,7 +31,7 @@ export const Body = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim(); // Trim the value for better validation
+    const value = e.target.value;
     setInputValue(value);
 
     if (value && !isValidInput(value)) {
@@ -41,17 +43,19 @@ export const Body = () => {
     e.preventDefault();
     setLoading(true); // Start loading
 
-    if (!inputValue.trim()) {
+    const value = inputValue.trim();
+
+    if (!value.trim()) {
       alert("Please provide text to analyze."); // Replace with a styled alert component if needed
       return;
     }
 
-    const isURL = isValidInput(inputValue) && inputValue.startsWith("http");
+    const isURL = isValidInput(value) && value.startsWith("http");
 
     try {
       const response = await verifyNews({
         category: isURL ? "url" : "text",
-        content: inputValue,
+        content: value,
       });
 
       console.log(isURL);
@@ -74,6 +78,7 @@ export const Body = () => {
       setShowPopup(true); // Show popup even on failure
     } finally {
       setLoading(false); // Stop loading
+      if (inputRef.current) inputRef.current.blur();
     }
   };
 
@@ -191,6 +196,7 @@ export const Body = () => {
                 type="text"
                 placeholder="Type text or URL"
                 value={inputValue}
+                ref={inputRef}
                 onChange={handleInputChange} // Use the new handler
               />
             </div>
