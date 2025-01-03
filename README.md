@@ -53,7 +53,7 @@
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/DarshanHeble/MisInformation-Detection-Model.git
+   git clone https://github.com/DarshanHeble/Fake-News-Detector-by-innovative-spirits.git
    ```
 
 2. **Open the Project in Your IDE:**
