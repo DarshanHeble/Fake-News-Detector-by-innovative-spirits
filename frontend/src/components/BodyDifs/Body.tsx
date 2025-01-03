@@ -51,7 +51,7 @@ export const Body = () => {
     }
 
     const isURL = isValidInput(value) && value.startsWith("http");
-
+    if (inputRef.current) inputRef.current.blur();
     try {
       const response = await verifyNews({
         category: isURL ? "url" : "text",
