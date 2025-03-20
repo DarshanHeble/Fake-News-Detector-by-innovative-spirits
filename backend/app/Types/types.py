@@ -9,10 +9,12 @@ class ScrapedNewsType(BaseModel):
         title: The headline or title of the news article (optional).
         description: The description or summary of the news article (optional).
         domain: The domain of the article's source (optional).
+        link: The link of the article source(Optional)
     """
     title: Optional[str] = Field(None, description="The headline or title of the news article.")
     description: Optional[str] = Field(None, description="The description or summary of the news article.")
     domain: Optional[str] = Field(None, description="The domain of the link.")                               # Not need for our current use case
+    link: Optional[str] = Field(None, description="The link of the news")
     # published_at: Optional[str] = Field(None, description="The published date and time of the news article.")     # Not need for our current use case
 
 class ScrapedNewsTypeWithStance(ScrapedNewsType):

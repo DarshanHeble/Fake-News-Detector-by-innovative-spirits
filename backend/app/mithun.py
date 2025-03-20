@@ -7,6 +7,9 @@ from collections import Counter
 import numpy as np
 import re
 import logging
+from typing import Union, Tuple, List
+
+from .services.fetchNewsFromGoogle import fetch_and_scrape_news_from_google
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -67,9 +70,34 @@ def classify_news(headlines, links):
     
     return labels
 
+async def get_headlines_and_links(
+    keywords_or_string: Union[List[str], str], start: int = 1, num: int = 10
+) -> Tuple[List[str], List[str]]:
+    """
+    Fetches and scrapes news articles, returning their headlines and links.
+
+    Args:
+        keywords_or_string: A list of keywords or a single string to form the search query.
+
+    Returns:
+        A tuple containing two lists:
+        - List of headlines (str).
+        - List of links (str).
+    """
+    print("Fetching and scraping news articles...")
+    scraped_articles = await fetch_and_scrape_news_from_google(keywords_or_string)
+
+    # Extract headlines and links from scraped articles
+    headlines = [article.title for article in scraped_articles if article.title]
+    links = [article.link for article in scraped_articles if article.link]
+
+    print(f"Extracted {len(headlines)} headlines and {len(links)} links.")
+    return headlines, links
+
 async def m_main(statement):
     # statement = input("Enter the News Topic or Keyword: ")
-    result, links = baadkar_scrape(statement)
+    # result, links = baadkar_scrape(statement)
+    result, links = await get_headlines_and_links(statement)
 
     if result:
         # Classify the fetched headlines

@@ -74,7 +74,11 @@ async def fetch_news_from_google(
     return []  # Default return for failures
 
 
-async def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[ScrapedNewsType]:
+async def fetch_and_scrape_news_from_google(
+    keywords_or_string: Union[List[str], str], 
+    start: int = 1, 
+    num: int = 10
+) -> list[ScrapedNewsType]:
     """
     Fetches news articles using Google Custom Search and scrapes metadata concurrently.
 
@@ -85,7 +89,7 @@ async def fetch_and_scrape_news_from_google(keywords: List[str]) -> list[Scraped
         A list of ScrapedNewsType containing titles and descriptions or an empty list if quota is exhausted.
     """
     print("Fetching news from Google...")
-    articles = await fetch_news_from_google(keywords)
+    articles = await fetch_news_from_google(keywords_or_string)
     print(f"Fetched {len(articles)} articles from Google.")
 
     if not articles:
@@ -123,7 +127,7 @@ async def scrape_article(link: str, session: ClientSession) -> Optional[ScrapedN
     try:
         content = extract_news_from_meta(link)
         if content:
-            return ScrapedNewsType(title=content.title, description=content.description)
+            return ScrapedNewsType(title=content.title, description=content.description, link=link)
     except Exception as e:
         print(f"Error scraping article: {link} - {e}")
     return None
