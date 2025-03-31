@@ -53,6 +53,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden; /* Prevent scrolling */
+  box-sizing: border-box; /* Ensure padding is included in the element's width/height */
 }
 
 .headerLeft {
@@ -78,6 +80,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  overflow: hidden; /* Prevent any overflow in the headerRight section */
 }
 
 .closeButton {
@@ -86,6 +89,8 @@
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+  padding: 0; /* Remove any default padding */
+  margin: 0; /* Remove any default margin */
 }
 
 /* Refresh Icon */
