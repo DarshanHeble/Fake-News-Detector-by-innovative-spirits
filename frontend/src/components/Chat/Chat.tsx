@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./Chat.module.css";
 import chatbotIcon from "@assets/bot-logo.png"; // Bot logo
 import clientIcon from "@assets/client.png";
