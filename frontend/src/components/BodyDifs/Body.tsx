@@ -11,7 +11,7 @@ export const Body = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const isValidInput = (input: string): boolean => {
     if (!input.trim()) return false; // Reject empty input
@@ -30,7 +30,7 @@ export const Body = () => {
     return urlPattern.test(input) || input.trim().length > 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setInputValue(value);
 
@@ -90,9 +90,11 @@ export const Body = () => {
 
         {/* Header Section */}
         <div className={style.mainlettercon}>
-          <span className={style.mainletterstyle}>Detect Fake News With</span>
+          <span className={`${style.mainletterstyle} ${style["anton-regular"]}`}>
+            Detect Fake News With
+          </span>
           <br />
-          <span className={style.mainletterstyle}>
+          <span className={`${style.mainletterstyle} ${style["anton-regular"]}`}>
             Our Real-Time AI Fake News Detector
           </span>
         </div>
@@ -191,13 +193,13 @@ export const Body = () => {
                   strokeLinecap="round"
                 />
               </svg>
-              <input
+              <textarea
                 className={style.inputbox}
-                type="text"
                 placeholder="Type text or URL"
                 value={inputValue}
                 ref={inputRef}
-                onChange={handleInputChange} // Use the new handler
+                onChange={handleInputChange}
+                rows={3} // Minimum 3 lines
               />
             </div>
 
