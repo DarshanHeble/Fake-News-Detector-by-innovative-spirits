@@ -2,7 +2,13 @@ import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
 import { useRef, useState } from "react";
 import verifyNews from "@services/verifyNews";
-import { FetchedNewsType, OutputNewsType } from "@Types/types";
+import { FetchedNewsType, InputNewsType, OutputNewsType } from "@Types/types";
+import { motion } from "framer-motion";
+
+type Message = {
+  newsInput: InputNewsType;
+  result?: OutputNewsType;
+};
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
@@ -12,6 +18,8 @@ export const Body = () => {
   const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const [message, setMessage] = useState<Message[]>([]); // State for message
 
   const isValidInput = (input: string): boolean => {
     if (!input.trim()) return false; // Reject empty input
@@ -53,6 +61,7 @@ export const Body = () => {
 
     const isURL = isValidInput(value) && value.startsWith("http");
     if (inputRef.current) inputRef.current.blur();
+
     try {
       const response = await verifyNews({
         category: isURL ? "url" : "text",
@@ -60,6 +69,16 @@ export const Body = () => {
       });
 
       console.log(isURL);
+
+      if (response !== false) {
+        setMessage((prev) => [
+          ...prev,
+          {
+            newsInput: { category: isURL ? "url" : "text", content: value },
+            result: response,
+          },
+        ]); // Update message state
+      }
 
       setResult(response);
       setShowPopup(true); // Show popup on successful result
@@ -105,7 +124,10 @@ export const Body = () => {
         </div>
 
         {/* Main Content */}
-        <div className={style.mainCon}>
+        <motion.div
+          className={style.mainCon}
+          animate={{ bottom: message.length > 0 ? "1px" : "" }}
+        >
           <form className={style.processCon} onSubmit={handleDetect}>
             {/* Input Section */}
             <div className={style.textBox}>
@@ -204,6 +226,12 @@ export const Body = () => {
                 value={inputValue}
                 ref={inputRef}
                 onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault(); // Prevent new line
+                    handleDetect(e); // Trigger form submission
+                  }
+                }}
                 rows={3} // Minimum 3 lines
               />
             </div>
@@ -219,7 +247,7 @@ export const Body = () => {
               {loading ? "Loading..." : "Detect"}
             </div>
           </form>
-        </div>
+        </motion.div>
 
         {/* Popup Section */}
         {showPopup && (

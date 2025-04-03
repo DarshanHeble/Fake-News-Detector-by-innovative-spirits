@@ -1,0 +1,145 @@
+.header {
+  width: 100%;
+  height: 70px;
+  padding: 0 1rem;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.logocon {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.logosvg {
+  width: 3rem;
+}
+.fakenewsStyle {
+  font-size: 2em;
+  font-weight: 700;
+}
+.TeamCon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.groupBTN {
+  padding: 0.5rem 0.5rem;
+  background-color: rgb(0, 0, 0);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.groupBTN:hover {
+  box-shadow: 0px 1px 3px 0px #404040;
+}
+.groupBTNfont {
+  color: white;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+.groupImg {
+  width: 4rem;
+}
+
+/* Screen-Breaker */
+@media (max-width: 700px) {
+  .header {
+    width: 100%;
+    height: 50px;
+  }
+  .logosvg {
+    width: 2rem;
+  }
+  .fakenewsStyle {
+    font-size: 1.5em;
+  }
+  .groupBTNfont {
+    color: white;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+  .groupImg {
+    width: 3rem;
+  }
+}
+@media (max-width: 471px) {
+  .logosvg {
+    width: 1.5rem;
+  }
+  .fakenewsStyle {
+    font-size: 1em;
+  }
+  .groupBTNfont {
+    color: white;
+    font-size: 0.7em;
+    font-weight: 500;
+  }
+  .groupImg {
+    width: 2.1rem;
+  }
+}
+@media (max-width: 349px) {
+  .logosvg {
+    width: 1.3rem;
+  }
+  .fakenewsStyle {
+    font-size: 0.8em;
+  }
+  .groupBTNfont {
+    color: white;
+    font-size: 0.7em;
+    font-weight: 500;
+  }
+  .groupImg {
+    width: 2rem;
+  }
+}
+
+.teamList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: 1000;
+  top: 50px;
+  right: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.teamList li {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: black;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.teamList li:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

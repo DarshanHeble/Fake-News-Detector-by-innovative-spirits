@@ -1,4 +1,2 @@
-BASE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1"
-
-GOOGLE_API_KEY = "AIzaSyBnzK8XGWzZF7YcdrPRSPAicJunxcoIuOg"  # google console api key
-CSE_ID = "9655e6575d1dc4ba5"                                # Custom google search api key
+SERPER_API_KEY = "cb0928906e7b91c67200cfd5cb820fc8b2b9a371"
+SERPER_NEWS_URL = "https://google.serper.dev/news"

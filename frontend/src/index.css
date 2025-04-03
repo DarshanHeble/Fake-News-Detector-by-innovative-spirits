@@ -11,5 +11,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow: auto;
+}
+
+html,
+body,
+#root,
+.ChatPage {
+  height: -webkit-fill-available;
 }
