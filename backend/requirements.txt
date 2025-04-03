@@ -15,7 +15,9 @@ bs4
 typing
 requests
 python-dotenv
-
+yake
+google-generativeai
+google-genai
 
 # rake-nltk
 # urllib3
