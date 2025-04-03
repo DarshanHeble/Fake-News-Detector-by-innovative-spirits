@@ -3,6 +3,7 @@ import FNDB from "../../assets/FNDbackground.png";
 import { useRef, useState } from "react";
 import verifyNews from "@services/verifyNews";
 import { FetchedNewsType, OutputNewsType } from "@Types/types";
+import { motion } from "framer-motion";
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
@@ -90,7 +91,12 @@ export const Body = () => {
         <img className={style.fndb} src={FNDB} alt="FNDB" />
 
         {/* Header Section */}
-        <div className={style.mainlettercon}>
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: "anticipate" }}
+          className={style.mainlettercon}
+        >
           <span
             className={`${style.mainletterstyle} ${style["anton-regular"]}`}
           >
@@ -102,10 +108,15 @@ export const Body = () => {
           >
             Our Real-Time AI Fake News Detector
           </span>
-        </div>
+        </motion.div>
 
         {/* Main Content */}
-        <div className={style.mainCon}>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "anticipate" }}
+          className={style.mainCon}
+        >
           <form className={style.processCon} onSubmit={handleDetect}>
             {/* Input Section */}
             <div className={style.textBox}>
@@ -204,6 +215,12 @@ export const Body = () => {
                 value={inputValue}
                 ref={inputRef}
                 onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault(); // Prevent new line
+                    handleDetect(e); // Trigger form submission
+                  }
+                }}
                 rows={3} // Minimum 3 lines
               />
             </div>
@@ -219,7 +236,7 @@ export const Body = () => {
               {loading ? "Loading..." : "Detect"}
             </div>
           </form>
-        </div>
+        </motion.div>
 
         {/* Popup Section */}
         {showPopup && (
@@ -232,8 +249,8 @@ export const Body = () => {
                       result.label === "fake"
                         ? style.red
                         : result.label === "neutral"
-                          ? style.neutral
-                          : style.green
+                        ? style.neutral
+                        : style.green
                     }
                   >
                     Result: This article is {result.label}
@@ -242,8 +259,8 @@ export const Body = () => {
                     {result.label === "fake"
                       ? "Be cautious! This news article might be misleading."
                       : result.label === "neutral"
-                        ? "This article is neutral. Please review further."
-                        : "This article seems genuine. Stay informed!"}
+                      ? "This article is neutral. Please review further."
+                      : "This article seems genuine. Stay informed!"}
                   </p>
                 </>
               ) : (
