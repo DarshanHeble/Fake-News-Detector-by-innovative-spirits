@@ -1,5 +1,5 @@
 from .services.extractKeywords import extract_keywords_yake
-from .services.serper import fetch_news_from_serper
+from .services.serper import search_news_with_serper
 from .services.gemini import analyze_stances
 
 # Define a list of trusted sources
@@ -77,7 +77,7 @@ TRUSTED_SOURCES = {
 }
 
 
-def evaluate_news(trusted_sources, headline, stance_results):
+async def evaluate_news(trusted_sources, headline, stance_results):
     # Initialize counters
     agree_count = 0
     disagree_count = 0
@@ -112,31 +112,34 @@ def evaluate_news(trusted_sources, headline, stance_results):
 
     # Decision logic
     if trusted_count == 0:
-        verdict = "Cannot Determine"
+        verdict = "neutral"
+        relevant_news = []
     elif agree_count > disagree_count:
         verdict = "real"
+        relevant_news = agree_news
     elif disagree_count > agree_count:
         verdict = "fake"
+        relevant_news = disagree_news
     else:
         verdict = "neutral"
+        relevant_news = discuss_news if discuss_news else agree_news + disagree_news
 
     return {
-        "headline": headline,
-        "agree_count": agree_count,
-        "disagree_count": disagree_count,
-        "discuss_count": discuss_count,
-        "unrelated_count": unrelated_count,
-        "trusted_count": trusted_count,
+        # "headline": headline,
+        # "agree_count": agree_count,
+        # "disagree_count": disagree_count,
+        # "discuss_count": discuss_count,
+        # "trusted_count": trusted_count,
         "verdict": verdict,
-        "agree_news": agree_news,
-        "disagree_news": disagree_news,
-        "discuss_news": discuss_news,
+        "relevant_news": relevant_news,
     }
 
 
-def gem_main(news_headline):
+async def gem_main(news_headline):
     keywords = extract_keywords_yake(news_headline)
-    fetched_news = fetch_news_from_serper(keywords)
+    print(keywords)
+    fetched_news = search_news_with_serper(keywords)
+    print("length of fected news article : ", len(fetched_news))
 
     stance_results = analyze_stances(news_headline, fetched_news)
 
@@ -149,5 +152,6 @@ def gem_main(news_headline):
         print("Stance :", news["stance"])
         print("-" * 100)
 
-    final_result = evaluate_news(TRUSTED_SOURCES, news_headline, stance_results)
+    final_result = await evaluate_news(TRUSTED_SOURCES, news_headline, stance_results)
+    print(final_result)
     return final_result

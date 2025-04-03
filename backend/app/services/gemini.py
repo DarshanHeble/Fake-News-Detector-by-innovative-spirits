@@ -38,11 +38,11 @@ def analyze_stances(input_headline, fetched_news):
 
     # Parse JSON response
     stances = json.loads(response.text)
-    print(stances)
+    print("stance length from gemini: ", len(stances))
 
     for i, news in enumerate(fetched_news):
         results.append(
             {**news, "stance": stances[i] if i < len(stances) else "Stance Unavailable"}
         )
-    print(results)
+    # print(results)
     return results

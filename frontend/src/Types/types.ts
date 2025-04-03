@@ -12,7 +12,7 @@ export type OutputNewsType = {
 
 export type FetchedNewsType = {
   link: string;
-  domain: string;
+  source: string;
 };
 
 export type TeamMembers = {

@@ -69,7 +69,7 @@ export const Body = () => {
         setData(
           response.relatedNews.map((suggestion: FetchedNewsType) => ({
             link: suggestion.link,
-            domain: suggestion.domain,
+            source: suggestion.source,
           }))
         );
       }
@@ -282,7 +282,7 @@ export const Body = () => {
                       {row.link}
                     </a>
                   </td>
-                  <td>{row.domain}</td>
+                  <td>{row.source}</td>
                 </tr>
               ))}
             </tbody>
