@@ -88,7 +88,7 @@ export const Body = () => {
         setData(
           response.relatedNews.map((suggestion: FetchedNewsType) => ({
             link: suggestion.link,
-            domain: suggestion.domain,
+            source: suggestion.source,
           }))
         );
       }
@@ -260,8 +260,8 @@ export const Body = () => {
                       result.label === "fake"
                         ? style.red
                         : result.label === "neutral"
-                          ? style.neutral
-                          : style.green
+                        ? style.neutral
+                        : style.green
                     }
                   >
                     Result: This article is {result.label}
@@ -270,8 +270,8 @@ export const Body = () => {
                     {result.label === "fake"
                       ? "Be cautious! This news article might be misleading."
                       : result.label === "neutral"
-                        ? "This article is neutral. Please review further."
-                        : "This article seems genuine. Stay informed!"}
+                      ? "This article is neutral. Please review further."
+                      : "This article seems genuine. Stay informed!"}
                   </p>
                 </>
               ) : (
@@ -310,7 +310,7 @@ export const Body = () => {
                       {row.link}
                     </a>
                   </td>
-                  <td>{row.domain}</td>
+                  <td>{row.source}</td>
                 </tr>
               ))}
             </tbody>
