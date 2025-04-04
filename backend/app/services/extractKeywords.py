@@ -1,7 +1,7 @@
 import yake
 
 
-def extract_keywords_yake(text: str, top_n: int = 10) -> list:
+def extract_keywords_yake(text: str, top_n: int = 15, strict: bool = False) -> list:
     """
     Extracts keywords using YAKE (fastest method) for searching news articles.
 
@@ -20,14 +20,25 @@ def extract_keywords_yake(text: str, top_n: int = 10) -> list:
 
     try:
         kw_extractor = yake.KeywordExtractor(lan="en", n=3, top=top_n, dedupLim=0.9)
-        keywords = kw_extractor.extract_keywords(text)
+        keywordsData = kw_extractor.extract_keywords(text)
+        keywords = [kw[0] for kw in keywordsData[:top_n]]
+        print(keywords, "\n")
+        # ['Challenges Waqf Amendment', 'Waqf Amendment Bill', 'Owaisi Challenges Waqf', 'Supreme Court', 'Religious Affairs']
 
-        return [kw[0] for kw in keywords]  # Extract only the keyword text
+        if strict:
+            flattened_keywords = [
+                word for phrase in keywords for word in phrase.split()
+            ]
+            flattened_keywords = flattened_keywords[:top_n]
+            print(flattened_keywords)
+            return flattened_keywords
+        else:
+            return keywords[:top_n]
     except Exception as e:
         print(f"Error extracting keywords: {e}")
         return []
 
 
 # Example usage
-# text = "Artificial Intelligence (AI) is transforming industries..."
-# print(extract_keywords_yake(text, 5))
+# text = "Owaisi Challenges Waqf Amendment Bill In Supreme Court; Says It Strips Muslims Of Right To Manage Their Own Religious Affairs"
+# extract_keywords_yake(text, strict=True)
