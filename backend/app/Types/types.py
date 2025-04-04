@@ -70,6 +70,6 @@ class OutputNewsType(BaseModel):
     relatedNews: List[dict] = Field(
         None, description="Related articles based on the news"
     )
-    keywordCheck: str = Field(
-        ..., description="The result of the keyword-based check (real, fake, or neutral)."
-    )
+    # keywordCheck: str = Field(
+    #     ..., description="The result of the keyword-based check (real, fake, or neutral)."
+    # )

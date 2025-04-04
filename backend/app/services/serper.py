@@ -5,12 +5,12 @@ from ..constants import SERPER_API_KEY
 url = "https://google.serper.dev/news"
 
 
-def search_news_with_serper(query: str):
+def search_news_with_serper(query: str, num=100):
     payload = json.dumps(
         {
             "q": query,
             "gl": "in",
-            "num": 100,
+            "num": num,
         }
     )
 

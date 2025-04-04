@@ -117,19 +117,23 @@ async def evaluate_news(trusted_sources, headline, stance_results):
     elif agree_count > disagree_count:
         verdict = "real"
         relevant_news = agree_news
+        if len(relevant_news) < 5 and discuss_news:
+            relevant_news += discuss_news[: 5 - len(relevant_news)]
     elif disagree_count > agree_count:
         verdict = "fake"
         relevant_news = disagree_news
+        if len(relevant_news) < 5 and discuss_news:
+            relevant_news += discuss_news[: 5 - len(relevant_news)]
     else:
         verdict = "neutral"
         relevant_news = discuss_news if discuss_news else agree_news + disagree_news
 
     return {
-        # "headline": headline,
-        # "agree_count": agree_count,
-        # "disagree_count": disagree_count,
-        # "discuss_count": discuss_count,
-        # "trusted_count": trusted_count,
+        "headline": headline,
+        "agree_count": agree_count,
+        "disagree_count": disagree_count,
+        "discuss_count": discuss_count,
+        "trusted_count": trusted_count,
         "verdict": verdict,
         "relevant_news": relevant_news,
     }

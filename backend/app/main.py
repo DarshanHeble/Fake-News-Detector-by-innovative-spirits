@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .Types.types import InputNewsType, OutputNewsType
 from .services.webScrap import extract_news_from_meta
+from .services.extractKeywords import extract_keywords_yake
+from .services.serper import search_news_with_serper
 from .useGem import gem_main
 from .process import m_main
 from dotenv import load_dotenv
@@ -31,7 +33,6 @@ async def verify_news(news: InputNewsType):
     try:
         category = news.category
         content = news.content
-        url_extracted_news = ""
 
         # ----------------------------------
         if category == "url":
@@ -39,10 +40,17 @@ async def verify_news(news: InputNewsType):
                 fetchedNews = extract_news_from_meta(content)
                 if not fetchedNews or not fetchedNews.title:
                     raise ValueError("Failed to extract title from URL.")
-                content = fetchedNews.title
-                print("Input URL extracted", content)
+                verdict = await m_main(content)
+                # content = fetchedNews.title
+                keywords = extract_keywords_yake(fetchedNews.title)
+                relatedNews = search_news_with_serper(keywords)
+                # print("Input URL extracted", content)
+                return OutputNewsType(
+                    label=verdict,
+                    relatedNews=relatedNews,
+                )
             except Exception as e:
-                print(f"Error extracting content from URL: {e}")
+                print(f"Error extracting content from URL or m_main: {e}")
                 raise HTTPException(
                     status_code=400, detail="Invalid or inaccessible URL."
                 )
@@ -53,14 +61,10 @@ async def verify_news(news: InputNewsType):
         verdict = gem_result["verdict"]
         relatedNews = gem_result["relevant_news"]
 
-        # Call m_main for keyword-based classification
-        keyword_check_result = await m_main(content)
-
         # Return the result (fake or real) and some related news
         return OutputNewsType(
             label=verdict,
             relatedNews=relatedNews,
-            keywordCheck=keyword_check_result,
         )
 
     except HTTPException as http_exc:
