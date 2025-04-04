@@ -62,13 +62,14 @@ class InputNewsType(BaseModel):
     content: str  # content will be in string format(text or url)
 
 
-# will update this class in future
 class OutputNewsType(BaseModel):
     label: Literal["real", "fake", "neutral"] = Field(
         ...,
         description="The classification label for the news article. 'real' indicates the article is truthful, while 'fake' indicates false information.",
     )
-    relatedNews: List[FetchedNewsType] = Field(
-        None, description="Related artticles based on the news"
+    relatedNews: List[dict] = Field(
+        None, description="Related articles based on the news"
     )
-    # title: Optional[str] = Field(None, description="The title of the news article.")                              # Not need for our use case
+    keywordCheck: str = Field(
+        ..., description="The result of the keyword-based check (real, fake, or neutral)."
+    )

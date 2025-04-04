@@ -48,12 +48,20 @@ async def verify_news(news: InputNewsType):
                 )
         # ----------------------------------
 
-        result = await gem_main(content)
-        verdict = result["verdict"]
-        relatedNews = result["relevant_news"]
+        # Call gem_main for stance analysis
+        gem_result = await gem_main(content)
+        verdict = gem_result["verdict"]
+        relatedNews = gem_result["relevant_news"]
+
+        # Call m_main for keyword-based classification
+        keyword_check_result = await m_main(content)
 
         # Return the result (fake or real) and some related news
-        return OutputNewsType(label=verdict, relatedNews=relatedNews)
+        return OutputNewsType(
+            label=verdict,
+            relatedNews=relatedNews,
+            keywordCheck=keyword_check_result,
+        )
 
     except HTTPException as http_exc:
         # Re-raise HTTPExceptions for FastAPI to handle
@@ -75,4 +83,4 @@ async def connection_status():
 
 @app.get("/")
 async def root():
-    return {"message": "Fake New Detection Backend is running"}
+    return {"message": "Fake News Detection Backend is running"}
