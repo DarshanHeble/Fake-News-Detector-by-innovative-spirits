@@ -1,5 +1,5 @@
 import style from "./Header.module.css";
-import GroupImg from "../../../assets/Group.png";
+import GroupImg from "../../assets/Group.png";
 import { useEffect, useRef, useState } from "react";
 import { TeamMembers } from "@Types/types";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,9 +18,18 @@ export const Header = () => {
       }
     };
 
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsTeamVisible(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscKey);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKey);
     };
   }, []);
 

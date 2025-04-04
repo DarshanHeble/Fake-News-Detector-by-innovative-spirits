@@ -1,6 +1,6 @@
 import "./index.css";
 import getServerStatus from "@services/getServerStatus";
-import { Header } from "@components/BodyDifs/HeaderDifs/Header";
+import { Header } from "@components/HeaderDifs/Header";
 import { Body } from "@components/BodyDifs/Body";
 
 function App() {
