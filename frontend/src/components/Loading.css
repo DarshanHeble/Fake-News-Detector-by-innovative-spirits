@@ -1,22 +1,24 @@
 .loading-container {
-  display: flex;
-  align-items: center;
+  position: relative;
+  display: inline-flex; /* Changed to inline-flex */
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.loading-box {
-  width: 4rem;
-  height: 4rem;
-  background-color: black;
-  border-radius: 1rem;
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+.rotating-wrapper {
+  position: relative; /* Changed from absolute */
+  width: fit-content; /* Changed from 100% */
+  height: fit-content; /* Changed from 100% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
+.loading-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  position: absolute;
 }

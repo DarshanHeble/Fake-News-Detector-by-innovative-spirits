@@ -2,8 +2,14 @@ import style from "./Body.module.css";
 import FNDB from "../../assets/FNDbackground.png";
 import { useRef, useState } from "react";
 import verifyNews from "@services/verifyNews";
-import { FetchedNewsType, OutputNewsType } from "@Types/types";
+import { FetchedNewsType, InputNewsType, OutputNewsType } from "@Types/types";
 import { motion } from "framer-motion";
+import Loading from "@components/Loading";
+
+type Message = {
+  newsInput: InputNewsType;
+  result?: OutputNewsType;
+};
 
 export const Body = () => {
   const [inputValue, setInputValue] = useState(""); // State for input value
@@ -13,6 +19,8 @@ export const Body = () => {
   const [data, setData] = useState<FetchedNewsType[]>([]); // State for table data
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const [, setMessage] = useState<Message[]>([]); // State for message
 
   const isValidInput = (input: string): boolean => {
     if (!input.trim()) return false; // Reject empty input
@@ -54,6 +62,7 @@ export const Body = () => {
 
     const isURL = isValidInput(value) && value.startsWith("http");
     if (inputRef.current) inputRef.current.blur();
+
     try {
       const response = await verifyNews({
         category: isURL ? "url" : "text",
@@ -61,6 +70,16 @@ export const Body = () => {
       });
 
       console.log(isURL);
+
+      if (response !== false) {
+        setMessage((prev) => [
+          ...prev,
+          {
+            newsInput: { category: isURL ? "url" : "text", content: value },
+            result: response,
+          },
+        ]); // Update message state
+      }
 
       setResult(response);
       setShowPopup(true); // Show popup on successful result
@@ -112,8 +131,8 @@ export const Body = () => {
 
         {/* Main Content */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 30, opacity: 1 }}
           transition={{ duration: 0.8, ease: "anticipate" }}
           className={style.mainCon}
         >
@@ -230,10 +249,10 @@ export const Body = () => {
               onClick={!loading ? handleDetect : undefined} // Prevent double-click during loading
               style={{
                 pointerEvents: loading ? "none" : "auto",
-                opacity: loading ? 0.6 : 1,
+                opacity: loading ? 0.8 : 1,
               }}
             >
-              {loading ? "Loading..." : "Detect"}
+              {loading ? <Loading /> : "Detect"}
             </div>
           </form>
         </motion.div>

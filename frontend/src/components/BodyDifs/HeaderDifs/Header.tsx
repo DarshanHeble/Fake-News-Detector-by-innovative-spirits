@@ -1,10 +1,28 @@
 import style from "./Header.module.css";
-import GroupImg from "../../assets/Group.png";
-import { useState } from "react";
+import GroupImg from "../../../assets/Group.png";
+import { useEffect, useRef, useState } from "react";
 import { TeamMembers } from "@Types/types";
+import { AnimatePresence, motion } from "framer-motion";
 
 export const Header = () => {
   const [isTeamVisible, setIsTeamVisible] = useState(false);
+  const teamContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        teamContainerRef.current &&
+        !teamContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsTeamVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // toggle the visibility of the team  list
   const toggleTeamVisibility = () => {
@@ -40,7 +58,12 @@ export const Header = () => {
   ];
 
   return (
-    <div className={style.header}>
+    <motion.div
+      className={style.header}
+      initial={{ y: -30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+    >
       <div className={style.logocon}>
         <svg
           className={style.logosvg}
@@ -137,29 +160,38 @@ export const Header = () => {
           FAKE NEWS <span className="detectroStyle">DETECTOR</span>
         </span>
       </div>
-      <div className={style.TeamCon}>
+      <div className={style.TeamCon} ref={teamContainerRef}>
         <div className={style.groupBTN} onClick={toggleTeamVisibility}>
           <span className={style.groupBTNfont}>Our Team</span>
           <img className={style.groupImg} src={GroupImg} alt="GI" />
         </div>
-        {isTeamVisible && (
-          <ul className={style.teamList}>
-            {teamMembers.map((member) => (
-              <a
-                href={member.linkedinUrl}
-                target="_blank"
-                style={{ textDecoration: "none" }}
-              >
-                <li>
-                  {member.name}
-                  <br />
-                  <b>{member.email}</b>
-                </li>
-              </a>
-            ))}
-          </ul>
-        )}
+        <AnimatePresence>
+          {isTeamVisible && (
+            <motion.ul
+              className={style.teamList}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {teamMembers.map((member, index) => (
+                <a
+                  key={index}
+                  href={member.linkedinUrl}
+                  target="_blank"
+                  style={{ textDecoration: "none" }}
+                >
+                  <li>
+                    {member.name}
+                    <br />
+                    <b>{member.email}</b>
+                  </li>
+                </a>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   );
 };
