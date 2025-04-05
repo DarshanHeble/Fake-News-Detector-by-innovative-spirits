@@ -74,6 +74,7 @@ TRUSTED_SOURCES = {
     "thewire.in": {"name": "The Wire", "credibility": 86},
     "newsclick.in": {"name": "NewsClick.in", "credibility": 80},  # variable bias
     "rediff.com": {"name": "Rediff.com", "credibility": 83},
+    "www.independent.co.uk": {"name": "The Independent", "credibility": 74},
 }
 
 
