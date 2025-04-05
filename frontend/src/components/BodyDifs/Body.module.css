@@ -148,9 +148,13 @@
 }
 @media (max-width: 425px) {
   .mainCon {
-    /* width: 95%;
-    height: 50%; */
+    width: 102%;
+    height: 50%;
     justify-content: flex-end;
+    bottom: 6rem;
+  }
+  .processCon {
+    padding: 15px;
   }
 }
 @media (max-width: 349px) {
