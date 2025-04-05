@@ -22,16 +22,25 @@ def extract_keywords_yake(text: str, top_n: int = 15, strict: bool = False) -> l
         kw_extractor = yake.KeywordExtractor(lan="en", n=3, top=top_n, dedupLim=0.9)
         keywordsData = kw_extractor.extract_keywords(text)
         keywords = [kw[0] for kw in keywordsData[:top_n]]
-        print(keywords, "\n")
+        # print(keywords, "\n")
         # ['Challenges Waqf Amendment', 'Waqf Amendment Bill', 'Owaisi Challenges Waqf', 'Supreme Court', 'Religious Affairs']
 
         if strict:
+            # Strip single quotes and split
             flattened_keywords = [
-                word for phrase in keywords for word in phrase.split()
+                word.strip("'") for phrase in keywords for word in phrase.split()
             ]
-            flattened_keywords = flattened_keywords[:top_n]
-            print(flattened_keywords)
-            return flattened_keywords
+            # Remove duplicate keywords
+            seen = set()
+            unique_keywords = []
+            for word in flattened_keywords:
+                if word not in seen:
+                    seen.add(word)
+                    unique_keywords.append(word)
+
+            unique_keywords = unique_keywords[:top_n]
+            print(unique_keywords)
+            return unique_keywords
         else:
             return keywords[:top_n]
     except Exception as e:
