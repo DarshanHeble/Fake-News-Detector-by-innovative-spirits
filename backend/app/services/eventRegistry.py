@@ -13,7 +13,7 @@ er = EventRegistry(apiKey=API_KEY)
 
 def fetch_event_registry_news(
     keywords: list[str], max_articles: int = 100
-) -> pd.DataFrame:
+) -> list[dict]:
     """
     Fetches news articles using the official Event Registry library.
 
@@ -37,13 +37,17 @@ def fetch_event_registry_news(
     try:
         response = er.execQuery(q)
         articles = response.get("articles", {}).get("results", [])
-        print(articles)
+        # print(articles)
         return articles
     except Exception as e:
         print(f"Error fetching articles: {e}")
         return []
 
 
-news = "'Google AI presented my April Fools' story as real news'"
+news = " Donald Trump Sends Out Embarrassing New Years Eve Message; This is Disturbing"
 keywords = extract_keywords_yake(news, top_n=15, strict=True)
-fetch_event_registry_news(keywords)
+datas = fetch_event_registry_news(keywords)
+print("len ", len(datas))
+for data in datas:
+    print(data)
+    print("*" * 100)

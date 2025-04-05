@@ -146,7 +146,7 @@
     font-size: 1.5rem;
   }
 }
-@media (max-width: 425px) {
+@media (max-width: 485px) {
   .mainCon {
     width: 102%;
     height: 50%;
