@@ -72,7 +72,7 @@ TRUSTED_SOURCES = {
     "theprint.in": {"name": "The Print", "credibility": 88},
     "scroll.in": {"name": "Scroll.in", "credibility": 87},
     "thewire.in": {"name": "The Wire", "credibility": 86},
-    "newsclick.in": {"name": "NewsClick.in", "credibility": 80},  # variable bias
+    "newsclick.in": {"name": "NewsClick.in", "credibility": 80},
     "rediff.com": {"name": "Rediff.com", "credibility": 83},
     "www.independent.co.uk": {"name": "The Independent", "credibility": 74},
 }
