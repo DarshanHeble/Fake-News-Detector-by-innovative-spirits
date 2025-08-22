@@ -3,10 +3,13 @@ import GroupImg from "../../assets/Group.png";
 import { useEffect, useRef, useState } from "react";
 import { TeamMembers } from "@Types/types";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const [isTeamVisible, setIsTeamVisible] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const teamContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -21,6 +24,7 @@ export const Header = () => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsTeamVisible(false);
+        setSidebarOpen(false);
       }
     };
 
@@ -32,6 +36,11 @@ export const Header = () => {
       document.removeEventListener("keydown", handleEscKey);
     };
   }, []);
+
+  const handleSidebarItemClick = (route?: string) => {
+    setSidebarOpen(false);
+    if (route) navigate(route);
+  };
 
   // toggle the visibility of the team  list
   const toggleTeamVisibility = () => {
@@ -73,7 +82,110 @@ export const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <div className={style.logocon}>
+      {/* Hamburger Icon */}
+      <div
+        className={`${style.hamburger} ${sidebarOpen ? style.hamburgerActive : ""}`}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        tabIndex={0}
+        aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+        aria-expanded={sidebarOpen}
+        role="button"
+        onKeyDown={(e) =>
+          (e.key === "Enter" || e.key === " ") && setSidebarOpen(!sidebarOpen)
+        }
+      >
+        <div className={style.bar}></div>
+        <div className={style.bar}></div>
+        <div className={style.bar}></div>
+      </div>
+      {/* Sidebar */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.nav
+            className={style.sidebar}
+            initial={{ x: -220, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -220, opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+            }}
+          >
+            {/* Close button for sidebar */}
+            <button
+              className={style.sidebarCloseBtn}
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar"
+              tabIndex={0}
+              style={{
+                alignSelf: "flex-end",
+                background: "none",
+                border: "none",
+                fontSize: "2rem",
+                color: "#888",
+                cursor: "pointer",
+                marginBottom: "1.5rem",
+                transition: "color 0.2s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.color = "#222")}
+              onMouseOut={(e) => (e.currentTarget.style.color = "#888")}
+            >
+              &times;
+            </button>
+            <div className={style.sidebarList}>
+              <button
+                className={style.sidebarItem}
+                onClick={() => handleSidebarItemClick("/file")}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="file">
+                  📄
+                </span>
+                Detect from File
+              </button>
+              <button
+                className={style.sidebarItem}
+                onClick={() => handleSidebarItemClick("/messages")}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="message">
+                  💬
+                </span>
+                Detect from Messages
+              </button>
+              <button
+                className={style.sidebarItem}
+                onClick={() => handleSidebarItemClick("/")}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="text">
+                  📝
+                </span>
+                Detect from Text
+              </button>
+              <button
+                className={`${style.sidebarItem} ${style.quizItem}`}
+                onClick={() => handleSidebarItemClick("/quiz")}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="quiz">
+                  🧠
+                </span>
+                Fake News IQ{" "}
+                <span style={{ fontSize: "0.9em" }}>(Quiz Yourself!)</span>
+              </button>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+      {/* Logo (no motion) */}
+      <div
+        className={style.logocon}
+        style={{ cursor: "pointer" }}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        title="Go to top"
+      >
         <svg
           className={style.logosvg}
           width="167"
