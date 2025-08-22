@@ -136,6 +136,16 @@ export const Header = () => {
             <div className={style.sidebarList}>
               <button
                 className={style.sidebarItem}
+                onClick={() => handleSidebarItemClick("/")}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="text">
+                  📝
+                </span>
+                Detect from Text
+              </button>
+              <button
+                className={style.sidebarItem}
                 onClick={() => handleSidebarItemClick("/file")}
                 tabIndex={0}
               >
@@ -153,16 +163,6 @@ export const Header = () => {
                   💬
                 </span>
                 Detect from Messages
-              </button>
-              <button
-                className={style.sidebarItem}
-                onClick={() => handleSidebarItemClick("/")}
-                tabIndex={0}
-              >
-                <span role="img" aria-label="text">
-                  📝
-                </span>
-                Detect from Text
               </button>
               <button
                 className={`${style.sidebarItem} ${style.quizItem}`}
