@@ -3,6 +3,7 @@ import style from "../components/BodyDifs/Body.module.css";
 import Loading from "@components/Loading";
 import verifyNews from "@services/verifyNews";
 import { OutputNewsType, FetchedNewsType } from "@Types/types";
+import FNDB from "../assets/FNDbackground.png";
 
 const MessageCheckPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -58,23 +59,20 @@ const MessageCheckPage = () => {
   };
 
   return (
-    <div className={style.Mw}>
-      <div className={style.mainwork}>
+    <div className={style.pageWrap}>
+      <img src={FNDB} alt="background" className={style["page-bg"]} />
+      <div className={style.pageContent}>
         <div
           style={{
-            position: "absolute",
-            top: 40,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 2,
             background: "#fff",
             borderRadius: 12,
             boxShadow: "0 2px 12px #e0e0e0",
             padding: "18px 32px",
             minWidth: 320,
             maxWidth: 480,
-            width: "90%",
+            width: "100%",
             textAlign: "center",
+            margin: "0 auto",
           }}
         >
           <h2 style={{ fontWeight: 700, fontSize: "1.5rem", color: "#00796b" }}>

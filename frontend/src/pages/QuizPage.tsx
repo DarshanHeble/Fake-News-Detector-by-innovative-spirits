@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import FNDB from "../assets/FNDbackground.png";
+import style from "../components/BodyDifs/Body.module.css";
 
 const questions = [
   {
@@ -103,179 +105,186 @@ const QuizPage = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="quiz-container"
-      style={{
-        maxWidth: 600,
-        margin: "48px auto",
-        padding: "32px 24px",
-        background: "#ffffff",
-        borderRadius: 20,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-        fontFamily: "Inter, system-ui, sans-serif",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          color: "#ff9800",
-          fontWeight: 800,
-          fontSize: "2rem",
-          letterSpacing: "0.5px",
-          marginBottom: 8,
-        }}
-      >
-        🧠 Fake News IQ Quiz
-      </h2>
-      <div
-        style={{
-          textAlign: "center",
-          color: "#222",
-          fontSize: "1.08rem",
-          marginBottom: 18,
-          opacity: 0.8,
-        }}
-      >
-        Test your knowledge and become a Fake News Detective!
-      </div>
-      {!showResult ? (
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+    <div className={style.pageWrap}>
+      <img src={FNDB} alt="background" className={style["page-bg"]} />
+      <div className={style.pageContent}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="quiz-container"
+          style={{
+            maxWidth: 600,
+            margin: "0 auto",
+            padding: "32px 24px",
+            background: "#ffffff",
+            borderRadius: 20,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            fontFamily: "Inter, system-ui, sans-serif",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <h2
+            style={{
+              textAlign: "center",
+              color: "#ff9800",
+              fontWeight: 800,
+              fontSize: "2rem",
+              letterSpacing: "0.5px",
+              marginBottom: 8,
+            }}
           >
-            {/* Question display */}
-            <div className="question-container">
-              {/* Progress bar */}
-              <div
-                style={{
-                  width: "100%",
-                  height: 4,
-                  background: "#f0f0f0",
-                  borderRadius: 2,
-                  marginBottom: 24,
-                }}
+            🧠 Fake News IQ Quiz
+          </h2>
+          <div
+            style={{
+              textAlign: "center",
+              color: "#222",
+              fontSize: "1.08rem",
+              marginBottom: 18,
+              opacity: 0.8,
+            }}
+          >
+            Test your knowledge and become a Fake News Detective!
+          </div>
+          {!showResult ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
               >
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{
-                    width: `${((current + 1) / questions.length) * 100}%`,
-                  }}
-                  style={{
-                    height: "100%",
-                    background: "linear-gradient(90deg, #4CAF50, #81C784)",
-                    borderRadius: 2,
-                  }}
-                />
-              </div>
-
-              {/* Question */}
-              <h3 style={{ color: "#2c3e50", marginBottom: 24 }}>
-                {questions[current].question}
-              </h3>
-
-              {/* Options */}
-              <div className="options-container">
-                {questions[current].options.map((opt, idx) => (
-                  <motion.button
-                    key={idx}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleOption(idx)}
-                    disabled={selected !== null}
+                {/* Question display */}
+                <div className="question-container">
+                  {/* Progress bar */}
+                  <div
                     style={{
                       width: "100%",
-                      padding: "16px",
-                      margin: "8px 0",
-                      border: "2px solid #e0e0e0",
-                      borderRadius: 12,
-                      background:
-                        selected === idx
-                          ? idx === questions[current].answer
-                            ? "#e8f5e9"
-                            : "#ffebee"
-                          : "#ffffff",
-                      cursor: selected === null ? "pointer" : "default",
-                      transition: "all 0.2s",
-                      textAlign: "left",
-                      fontSize: "1rem",
-                      color: "#333",
+                      height: 4,
+                      background: "#f0f0f0",
+                      borderRadius: 2,
+                      marginBottom: 24,
                     }}
                   >
-                    {opt}
-                  </motion.button>
-                ))}
-              </div>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: `${((current + 1) / questions.length) * 100}%`,
+                      }}
+                      style={{
+                        height: "100%",
+                        background: "linear-gradient(90deg, #4CAF50, #81C784)",
+                        borderRadius: 2,
+                      }}
+                    />
+                  </div>
 
-              {/* Explanation */}
-              <AnimatePresence>
-                {showExplanation && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    style={{
-                      padding: 16,
-                      background: "#f8f9fa",
-                      borderRadius: 12,
-                      marginTop: 16,
-                      color: "#495057",
-                    }}
-                  >
-                    {questions[current].explanation}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="results-container"
-        >
-          <div style={{ textAlign: "center", marginTop: 32 }}>
-            <h2 style={{ color: "#2c3e50", marginBottom: 16 }}>
-              Your Score: {score} / {questions.length}
-            </h2>
-            <p style={{ color: "#666", marginBottom: 24 }}>
-              {score === questions.length
-                ? "🏆 Amazing! You're a Fake News Detection Expert!"
-                : score >= questions.length * 0.7
-                ? "👍 Great job! You're well-equipped to spot fake news."
-                : "📚 Keep learning! Practice makes perfect."}
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                setCurrent(0);
-                setScore(0);
-                setShowResult(false);
-              }}
-              style={{
-                padding: "12px 32px",
-                background: "linear-gradient(135deg, #4CAF50, #81C784)",
-                color: "white",
-                border: "none",
-                borderRadius: 12,
-                fontSize: "1.1rem",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(76, 175, 80, 0.2)",
-              }}
+                  {/* Question */}
+                  <h3 style={{ color: "#2c3e50", marginBottom: 24 }}>
+                    {questions[current].question}
+                  </h3>
+
+                  {/* Options */}
+                  <div className="options-container">
+                    {questions[current].options.map((opt, idx) => (
+                      <motion.button
+                        key={idx}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleOption(idx)}
+                        disabled={selected !== null}
+                        style={{
+                          width: "100%",
+                          padding: "16px",
+                          margin: "8px 0",
+                          border: "2px solid #e0e0e0",
+                          borderRadius: 12,
+                          background:
+                            selected === idx
+                              ? idx === questions[current].answer
+                                ? "#e8f5e9"
+                                : "#ffebee"
+                              : "#ffffff",
+                          cursor: selected === null ? "pointer" : "default",
+                          transition: "all 0.2s",
+                          textAlign: "left",
+                          fontSize: "1rem",
+                          color: "#333",
+                        }}
+                      >
+                        {opt}
+                      </motion.button>
+                    ))}
+                  </div>
+
+                  {/* Explanation */}
+                  <AnimatePresence>
+                    {showExplanation && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                          padding: 16,
+                          background: "#f8f9fa",
+                          borderRadius: 12,
+                          marginTop: 16,
+                          color: "#495057",
+                        }}
+                      >
+                        {questions[current].explanation}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="results-container"
             >
-              Try Again
-            </motion.button>
-          </div>
+              <div style={{ textAlign: "center", marginTop: 32 }}>
+                <h2 style={{ color: "#2c3e50", marginBottom: 16 }}>
+                  Your Score: {score} / {questions.length}
+                </h2>
+                <p style={{ color: "#666", marginBottom: 24 }}>
+                  {score === questions.length
+                    ? "🏆 Amazing! You're a Fake News Detection Expert!"
+                    : score >= questions.length * 0.7
+                    ? "👍 Great job! You're well-equipped to spot fake news."
+                    : "📚 Keep learning! Practice makes perfect."}
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setCurrent(0);
+                    setScore(0);
+                    setShowResult(false);
+                  }}
+                  style={{
+                    padding: "12px 32px",
+                    background: "linear-gradient(135deg, #4CAF50, #81C784)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: 12,
+                    fontSize: "1.1rem",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(76, 175, 80, 0.2)",
+                  }}
+                >
+                  Try Again
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
-      )}
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
