@@ -27,4 +27,19 @@ const verifyNews = async (
   }
 };
 
+export const verifyMessage = async (
+  messageData: InputNewsType
+): Promise<OutputNewsType | false> => {
+  try {
+    const response = await api.post<OutputNewsType>(
+      "/verify-message",
+      messageData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while verifying the message: ", error);
+    return false;
+  }
+};
+
 export default verifyNews;

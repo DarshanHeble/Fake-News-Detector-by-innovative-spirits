@@ -84,7 +84,9 @@ export const Header = () => {
     >
       {/* Hamburger Icon */}
       <div
-        className={`${style.hamburger} ${sidebarOpen ? style.hamburgerActive : ""}`}
+        className={`${style.hamburger} ${
+          sidebarOpen ? style.hamburgerActive : ""
+        }`}
         onClick={() => setSidebarOpen(!sidebarOpen)}
         tabIndex={0}
         aria-label={sidebarOpen ? "Close menu" : "Open menu"}
@@ -278,7 +280,7 @@ export const Header = () => {
           />
         </svg>
         <span className={style.fakenewsStyle}>
-          FAKE NEWS <span className="detectroStyle">DETECTOR</span>
+          FAKE NEWS <span className="detectroStyle">CHECKER</span>
         </span>
       </div>
       <div className={style.TeamCon} ref={teamContainerRef}>

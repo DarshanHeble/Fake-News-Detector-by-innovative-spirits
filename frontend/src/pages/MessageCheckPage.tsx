@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import style from "../components/BodyDifs/Body.module.css";
 import Loading from "@components/Loading";
-import verifyNews from "@services/verifyNews";
+import { verifyMessage } from "@services/verifyNews";
 import { OutputNewsType, FetchedNewsType } from "@Types/types";
 import FNDB from "../assets/FNDbackground.png";
 
@@ -29,9 +29,9 @@ const MessageCheckPage = () => {
     }
 
     try {
-      const response = await verifyNews({
-        category: "text",
+      const response = await verifyMessage({
         content: value,
+        category: "text",
       });
 
       if (response !== false) {
@@ -50,6 +50,7 @@ const MessageCheckPage = () => {
         setShowPopup(true);
       }
     } catch (error) {
+      console.log(error);
       setResult(false);
       setShowPopup(true);
     } finally {
@@ -79,7 +80,8 @@ const MessageCheckPage = () => {
             Check Fake News in Your Message
           </h2>
           <p style={{ color: "#444", fontSize: "1rem", marginBottom: 18 }}>
-            Paste or type a message (e.g., WhatsApp, SMS, Email) to check if it contains fake news.
+            Paste or type a message (e.g., WhatsApp, SMS, Email) to check if it
+            contains fake news.
           </p>
           <form onSubmit={handleDetect}>
             <textarea
@@ -109,7 +111,7 @@ const MessageCheckPage = () => {
                 marginTop: 8,
               }}
             >
-              {loading ? <Loading /> : "Check Message"}
+              {loading ? <Loading /> : "Check"}
             </div>
           </form>
         </div>

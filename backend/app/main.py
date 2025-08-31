@@ -1,9 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .Types.types import InputNewsType, OutputNewsType
+from .Types.types import (
+    InputNewsType,
+    OutputNewsType,
+    InputMessageType,
+    RelatedNewsType,
+)
 from .services.webScrap import extract_news_from_meta
 from .services.extractKeywords import extract_keywords_yake
 from .services.serper import search_news_with_serper
+from .services.gemini import verify_text_with_gemini
 from .useGem import gem_main
 from .process import m_main
 from dotenv import load_dotenv
@@ -14,6 +20,13 @@ load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI()
+
+
+# Helper function to sanitize input text
+def sanitize_text(text: str) -> str:
+    # Remove zero-width spaces and other problematic characters
+    return text.replace("\u200b", "").replace("\ufeff", "").strip()
+
 
 # Get the frontend URL from the environment, defaulting to localhost if not set
 frontend_url = os.getenv("frontend_url", "http://localhost:5173")
@@ -32,7 +45,7 @@ app.add_middleware(
 async def verify_news(news: InputNewsType):
     try:
         category = news.category
-        content = news.content
+        content = sanitize_text(news.content)
 
         # ----------------------------------
         if category == "url":
@@ -40,17 +53,19 @@ async def verify_news(news: InputNewsType):
                 fetchedNews = extract_news_from_meta(content)
                 if not fetchedNews or not fetchedNews.title:
                     raise ValueError("Failed to extract title from URL.")
+                # Sanitize the extracted title
+                sanitized_title = sanitize_text(fetchedNews.title)
                 verdict = await m_main(content)
-                # content = fetchedNews.title
-                keywords = extract_keywords_yake(fetchedNews.title)
+                keywords = extract_keywords_yake(sanitized_title)
                 relatedNews = search_news_with_serper(keywords)
-                # print("Input URL extracted", content)
                 return OutputNewsType(
                     label=verdict,
                     relatedNews=relatedNews,
                 )
             except Exception as e:
-                print(f"Error extracting content from URL or m_main: {e}")
+                print(
+                    f"Error extracting content from URL or m_main: {str(e).encode('utf-8', 'replace').decode('utf-8')}"
+                )
                 raise HTTPException(
                     status_code=400, detail="Invalid or inaccessible URL."
                 )
@@ -72,7 +87,7 @@ async def verify_news(news: InputNewsType):
         raise http_exc
     except Exception as e:
         # Catch-all for unexpected errors
-        print(f"Unexpected error: {e}")
+        print(f"Unexpected error: {str(e).encode('utf-8', 'replace').decode('utf-8')}")
         raise HTTPException(
             status_code=500,
             detail="An unexpected error occurred while processing the request.",
@@ -88,3 +103,21 @@ async def connection_status():
 @app.get("/")
 async def root():
     return {"message": "Fake News Detection Backend is running"}
+
+
+@app.post("/verify-message", response_model=OutputNewsType)
+async def verify_message(message: InputNewsType):
+    try:
+        content = sanitize_text(message.content)
+        verdict = await verify_text_with_gemini(content)
+        # Since we are only verifying text, we can return an empty list for related news
+        return OutputNewsType(
+            label=verdict,
+            relatedNews=[],
+        )
+    except Exception as e:
+        print(f"Unexpected error: {str(e).encode('utf-8', 'replace').decode('utf-8')}")
+        raise HTTPException(
+            status_code=500,
+            detail="An unexpected error occurred while processing the request.",
+        )

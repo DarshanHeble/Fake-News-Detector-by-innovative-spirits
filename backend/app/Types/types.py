@@ -62,6 +62,10 @@ class InputNewsType(BaseModel):
     content: str  # content will be in string format(text or url)
 
 
+class InputMessageType(BaseModel):
+    message: str = Field(..., description="The text message to be verified.")
+
+
 class OutputNewsType(BaseModel):
     label: Literal["real", "fake", "neutral"] = Field(
         ...,
@@ -69,6 +73,12 @@ class OutputNewsType(BaseModel):
     )
     relatedNews: List[dict] = Field(
         None, description="Related articles based on the news"
+    )
+
+
+class RelatedNewsType(BaseModel):
+    relatedNews: List[FetchedNewsType] = Field(
+        ..., description="A list of related news articles."
     )
     # keywordCheck: str = Field(
     #     ..., description="The result of the keyword-based check (real, fake, or neutral)."

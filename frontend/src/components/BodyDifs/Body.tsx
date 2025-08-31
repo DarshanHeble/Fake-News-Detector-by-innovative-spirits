@@ -125,7 +125,7 @@ export const Body = () => {
           <span
             className={`${style.mainletterstyle} ${style["anton-regular"]}`}
           >
-            Our Real-Time AI Fake News Detector
+            Our Real-Time AI Fake News Checker
           </span>
         </motion.div>
 

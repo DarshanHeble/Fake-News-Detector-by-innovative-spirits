@@ -46,3 +46,14 @@ def analyze_stances(input_headline, fetched_news):
         )
     # print(results)
     return results
+
+
+async def verify_text_with_gemini(text: str):
+    prompt = f"""
+        Analyze the following input, which can be a news headline, a text, or the content of a URL, and determine if it is "real", "fake", or "neutral".
+        Return ONLY the verdict as a single word.
+
+        Input: "{text}"
+    """
+    response = await model.generate_content_async(prompt)
+    return response.text.strip().lower()

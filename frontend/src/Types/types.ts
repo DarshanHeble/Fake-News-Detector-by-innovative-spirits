@@ -5,6 +5,10 @@ export type InputNewsType = {
   content: string;
 };
 
+export type InputMessageType = {
+  message: string;
+};
+
 export type OutputNewsType = {
   label: "real" | "fake" | "neutral";
   relatedNews?: FetchedNewsType[];
